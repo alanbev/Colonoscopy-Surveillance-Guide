@@ -1,5 +1,41 @@
+body{
+    background-color: cornsilk;
+}
+
+
 header {
     color: navajowhite;
     text-align: center;
     background-color: darkblue; 
+    width:80%;
+    margin:auto;  
+}
+
+footer {
+    display:block;
+    border: black solid;
+    position:fixed;
+    width: auto;
+    bottom: 0;
+    background-color: lightgoldenrodyellow;
+}
+
+footer>p{
+    margin:5px;
+}
+
+.formblock{
+    display: block;
+    border: solid;
+    background-color: rgb(182, 193, 216);   
+}
+.formblock>p{
+    margin:5px;
+}
+.formblock>p>input {
+    margin-right: 40px;
+}
+
+.hidden{
+    display: none;
 }

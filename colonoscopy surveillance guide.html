@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colonososcopy Surveillance Guide</title>
+    <link rel="stylesheet" href="CSS/index.css">
+</head>
+<body>
+    <header>
+        <h1> Colonoscopy Surveillance Guide </h1>
+        
+    </header>
+
+<div id="first_level_questions_block">
+<form id="first_level_questions" class="formblock">
+
+<p><label for="age">Patient Age</label>   
+    <input type="number" id="age" name="age" min="0"></input> </p>
+
+<p> <label for="date">Date of last colonoscopy</label>
+    <input type="date" id ="scopedate" name= "scopedate"/>  </p>
+<p>
+<label for="polyps" >Polyps on recent colonoscopy </label>  
+<input type="checkbox" id="polyps" name="polyps" /> 
+
+<label for="prev_crc">Previous colorectal cancer</label>
+<input type="checkbox" id="prev_crc" name="prev_crc"/>
+
+<label for="genetic">Familial /Genetic risk</label> 
+<input type="checkbox" id="genetic" name ="genetic"/> 
+
+<label for="colitis">Colitis</label>
+<input type="checkbox" id="colitis" name="colitis"/> 
+
+<label for="acromegaly">Acromegaly</label>
+<input type="checkbox" id=acromegaly name=acromegaly/></p>
+
+<input type="submit" id="first_form_button" action="post" value ="Show additional Questions"/>
+</form>
+
+
+</div>
+<div id=second_level_forms>
+<form id="polyp_questions" class="formblock hidden">
+    <p id =polyp_info>If the patient has had more than one endoscopy in the most recent episode enter the total number and largest size from the combined endoscopies</p>
+
+    <p><label for="num_polyps">Total number of polyps</label>
+    <input type="number"id="num_polyps" name="num_polyps" min="0"/></p>
+
+    <p><label for="size_polyp">>Size of largest polyp(mm)</label>
+    <input type="number" id="size_polyp" name="size_polyp"min="0"/>
+    </p>
+    <p>
+    <label for="lnpcp"> LNPCP</label>
+    <input type="checkbox" id="lnpcp" name="lnpcp"/> 
+    </p>
+   <p><label for="hgd">High grade Dysplasia</label>
+    <input type="checkbox" id=hgd name="hgd"/>
+    </p>
+
+
+
+
+
+
+   </p>
+
+
+
+
+
+</form>
+
+
+
+
+</div>
+
+
+
+
+<footer>
+    <p>Recomendations based on:</p>
+    
+<p><cite> <a href="https://www.bsg.org.uk/clinical-resource/bsg-acpgbi-phe-post-polypectomy-and-post-colorectal-cancer-resection-surveillance-guidelines/" target="_blank">BSG/ACPGBI/PHE Post-polypectomy and post-colorectal cancer resection surveillance guidelines 2019</a></cite></p>
+
+<p><cite><a href="https://www.bsg.org.uk/clinical-resource/guidelines-for-the-management-of-hereditary-colorectal-cancer-from-the-bsg-acpgbi-ukcgg/" target="_blank">Guidelines for the management of hereditary colorectal cancer from the BSG /ACPGBI/UKCGG 2019</a></cite></p>
+<p>
+<cite><a href="https://www.bsg.org.uk/wp-content/uploads/2019/12/BSG_ACPGBI-guidelines-for-colorectal-cancer-screening-and-surveillance-in-moderate-and-high-risk-groups-update-from-2002-.pdf" target="_blank"> BSG Guidance on High Risk Groups 2010</a> </cite></p>
+</footer>
+<script src="js/patient.js"></script>
+<script src="js/index.js"></script>
+    
+
+</body>
+</html>

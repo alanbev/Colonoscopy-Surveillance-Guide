@@ -1,0 +1,15 @@
+var patient={
+age: 0,
+scopedate: new Date(0),
+polyps: false,
+num_polyps: 0,
+size_polyp: 0,
+lnpcp: false,
+hgd:false,
+high_risk_polyp:false,
+due_int_polyps: 100,
+crc: false,
+crc_resected: new Date(0),
+loc_resect:false,
+due_int_crc: 100,
+};
