@@ -14,10 +14,10 @@
     </header>
 
 <div id="first_level_questions_block">
-<form id="first_level_questions" class="formblock">
+<form id="first_level_questions" class="formblock" >
 
 <p><label for="age">Patient Age</label>   
-    <input type="number" id="age" name="age" min="0"></input> </p>
+    <input type="number" id="age" name="age" min="0" required></input> </p>
 
 <p> <label for="date">Date of last colonoscopy</label>
     <input type="date" id ="scopedate" name= "scopedate"/>  </p>
@@ -42,14 +42,16 @@
 
 
 </div>
+<form id=second_level_questions></form>
 <div id=second_level_forms>
-<form id="polyp_questions" class="formblock hidden">
+
+    <div id="polyp_questions" class="formblock hidden">
     <p id =polyp_info>If the patient has had more than one endoscopy in the most recent episode enter the total number and largest size from the combined endoscopies</p>
 
     <p><label for="num_polyps">Total number of polyps</label>
     <input type="number"id="num_polyps" name="num_polyps" min="0"/></p>
 
-    <p><label for="size_polyp">>Size of largest polyp(mm)</label>
+    <p><label for="size_polyp">Size largest polyp(mm)</label>
     <input type="number" id="size_polyp" name="size_polyp"min="0"/>
     </p>
     <p>
@@ -58,18 +60,99 @@
     </p>
    <p><label for="hgd">High grade Dysplasia</label>
     <input type="checkbox" id=hgd name="hgd"/>
+    <p><label for="prev_polyps"> Multiple previous polyps</label>
+       <input type="checkbox" id="prev_polyps" name="prev_polyps"> 
+    </p>
+   
+</div>
+
+<div id= "crc_questions" class="formblock hidden">
+    <p> For patients with previous colorectal carinoma:</p>
+<p><Label for="crc_resected">Date cancer resected</Label>
+    <input type="date" id="crc_resected" name="crc_resected"/>
+</p>
+<p><Label for="loc_resect">Local Resection-TEM/Endoscopic</Label>
+    <input type="checkbox" id="loc_resect" name="loc_resect"/>
+</div>
+
+
+<div id="genetic_risk_questions" class="formblock hidden">
+
+<p><label for="fh_crc">Family history of CRC </label>
+    <input type="checkbox" id="fh_crc" name="fh_crc"/></p>
+    
+<p><label for="lynch">Lynch Syndrome </label>
+    <input type="checkbox" id="lynch" name="lynch"/></p>
+
+<p><label for="sps">Serrated Polyposis Syndrome(SPS) </label>
+    <input type="checkbox" id="sps" name="sps"/></p>
+
+<p><label for="fdr_sps">First Degree relative with SPS </label>
+    <input type="checkbox" id="fdr_sps" name="fdr_sps"/></p>
+
+<p><label for="mcra">Multiple Adenomas (>10 in lifetime) </label>
+    <input type="checkbox" id="mcra" name="mcra"/></p>
+
+<p><label for="fap">Familial Polyposis (FAP) </label>
+    <input type="checkbox" id="fap" name="fap"/></p>
+
+<p><label for="mutyh">MUTYH polyposis(MAP) </label>
+    <input type="checkbox" id="mutyh" name="mutyh"/></p>
+
+<p><label for="pjs">Peutz-Jeghers (PJS)  </label>
+    <input type="checkbox" id="pjs" name="pjs"/></p>
+
+<p><label for="jps">Juvenile Polyposis </label>
+    <input type="checkbox" id="jps" name="jps"/></p>
+
+</div>
+<div id="colitis_questions" class="formblock hidden">
+
+<p><label for="Date_onset_colitis"> Date colitis diagnosed </label></label> 
+    <input type="date" id="Date_onset_colitis" name="Date_onset_colitis"/>
     </p>
 
+<p >Severity of colitis:-
+    <p class="radio">
+    <label for ="nil_colitis_severity">Inactive</label>
+    <input type="radio" id="nil_colitis_severity" name="colitis_severity" value=0/>
+    
+    <label for ="mild_colitis_severity">Mild</label>
+    <input type="radio" id="mild_colitis_severity" name="colitis_severity" value=1/>
+    
+    <label for ="severe_colitis_severity">Mod. or Severe</label>
+    <input type="radio" id="severe_colitis_severity" name="colitis_severity" value=2/> 
+</p></p>
 
+</p><label for="l_colon_colitis"></label> Confined to left colon? </label>
+    <input type="checkbox" id="l_colon_colitis" name="l_colon_colitis">
+</p>
 
+<p><label for="inflam_polyps"> Inflammatory polyps </label>
+    <input type="checkbox" id="inflam_polyps" name="inflam_polyps"/>
+</p>
 
+<p><label for="stricture"> Stricture in last 5 years? </label>
+    <input type="checkbox" id="stricture" name="stricture"/>
+</p>
 
+<p><label for="dysplasia"> Dysplasia in last 5 years </label>
+    <input type="checkbox" id="dysplasia" name="dysplasia"/>
 
-   </p>
+<p><label for="pbs"> PBS or PSC</label>
+    <input type="checkbox" id="pbs" name="PBS"/>
+</p>
 
-
-
-
+<p><label for="colitis_fh_crc"> Family hist. of CRC</label>
+<input type="checkbox" id="colitis_fh_crc" name="colitis_fh_crc"/>
+</p>
+  </div> </div>  
+<div id="container_third-level_questions">
+    <div id="third_level_questions_polyps" class="formblock hidden"></div>
+    <div id="third_level_questions_fh" class="formblock hidden" ></div>
+    <div id=third_level_questions_lynch class="formblock hidden"></div>
+</div>
+<button id="form_finished">Form Completed- Show Recommendations</button> 
 
 </form>
 
@@ -90,9 +173,15 @@
 <p>
 <cite><a href="https://www.bsg.org.uk/wp-content/uploads/2019/12/BSG_ACPGBI-guidelines-for-colorectal-cancer-screening-and-surveillance-in-moderate-and-high-risk-groups-update-from-2002-.pdf" target="_blank"> BSG Guidance on High Risk Groups 2010</a> </cite></p>
 </footer>
+
+
 <script src="js/patient.js"></script>
 <script src="js/index.js"></script>
+<script src="js/third_level_questions.js"></script>
     
 
 </body>
 </html>
+
+
+

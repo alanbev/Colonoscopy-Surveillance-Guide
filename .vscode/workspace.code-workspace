@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "Colonoscopy-Surveillance-Guide",
+			"path": "..\\..\\..\\..\\..\\Documents\\colonoscopy survaillance advisor\\Colonoscopy-Surveillance-Guide"
+		},
+		{
+			"name": "src",
+			"path": "..\\..\\..\\..\\..\\Documents\\colonoscopy survaillance advisor\\src"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Colonoscopy-Surveillance-Guide"
+	}
+}
