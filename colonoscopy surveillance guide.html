@@ -35,9 +35,9 @@
 <input type="checkbox" id="colitis" name="colitis"/> 
 
 <label for="acromegaly">Acromegaly</label>
-<input type="checkbox" id=acromegaly name=acromegaly/></p>
+<input type="checkbox" id="acromegaly" name="acromegaly"/></p>
 
-<input type="submit" id="first_form_button" action="post" value ="Show additional Questions"/>
+<button id="first_form_button" >Show additional Questions</button> 
 </form>
 
 
@@ -90,7 +90,7 @@
 <p><label for="fdr_sps">First Degree relative with SPS </label>
     <input type="checkbox" id="fdr_sps" name="fdr_sps"/></p>
 
-<p><label for="mcra">Multiple Adenomas (>10 in lifetime) </label>
+<p><label for="mcra">MCRAs (>10 polyps in lifetime) </label>
     <input type="checkbox" id="mcra" name="mcra"/></p>
 
 <p><label for="fap">Familial Polyposis (FAP) </label>
@@ -108,17 +108,17 @@
 </div>
 <div id="colitis_questions" class="formblock hidden">
 
-<p><label for="Date_onset_colitis"> Date colitis diagnosed </label></label> 
-    <input type="date" id="Date_onset_colitis" name="Date_onset_colitis"/>
+<p><label for="date_onset_colitis"> Date colitis diagnosed </label></label> 
+    <input type="date" id="date_onset_colitis" name="date_onset_colitis"/>
     </p>
 
 <p >Severity of colitis:-
     <p class="radio">
     <label for ="nil_colitis_severity">Inactive</label>
-    <input type="radio" id="nil_colitis_severity" name="colitis_severity" value=0/>
+    <input type="radio" id="nil_colitis_severity" name="colitis_severity" value="0"/>
     
     <label for ="mild_colitis_severity">Mild</label>
-    <input type="radio" id="mild_colitis_severity" name="colitis_severity" value=1/>
+    <input type="radio" id="mild_colitis_severity" name="colitis_severity" value="1"/>
     
     <label for ="severe_colitis_severity">Mod. or Severe</label>
     <input type="radio" id="severe_colitis_severity" name="colitis_severity" value=2/> 
@@ -140,7 +140,7 @@
     <input type="checkbox" id="dysplasia" name="dysplasia"/>
 
 <p><label for="pbs"> PBS or PSC</label>
-    <input type="checkbox" id="pbs" name="PBS"/>
+    <input type="checkbox" id="pbs" name="pbs"/>
 </p>
 
 <p><label for="colitis_fh_crc"> Family hist. of CRC</label>
@@ -175,7 +175,7 @@
 </footer>
 
 
-<script src="js/patient.js"></script>
+<!--<script src="js/patient.js"></script>-->
 <script src="js/index.js"></script>
 <script src="js/third_level_questions.js"></script>
     

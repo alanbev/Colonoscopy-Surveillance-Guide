@@ -1,9 +1,16 @@
+let age;
+
+
+
 //callouts for adding questions to view
 
 function additionalQuestions(e)
 {
     e.preventDefault();
+
+    
     let first_form_contents=document.getElementById('first_level_questions').elements;
+    patient.age= first_form_contents.age.value
 
     if (first_form_contents["polyps"].checked)
     {
@@ -29,6 +36,8 @@ function additionalQuestions(e)
         document.getElementById('colitis_questions').classList.remove("hidden");
     }   
 }
+
+
 
 function show_prev_polp_questions(e)
 {
@@ -116,6 +125,34 @@ function show_lynch_questions(e)
     
 }
 
+function readForm(e)
+{
+let patient={};   
+let allData = document.querySelectorAll("input");
+allData.forEach(element=>
+    {
+        if(element.type==="checkbox")
+        {
+            patient[element.name]=element.checked;
+        }
+        else if (element.type==="radio")
+        {
+            if(element.checked)
+            {
+                patient[element.name]=element.value;
+            }
+        }
+        else
+        {
+            patient[element.name]=element.value;
+        }
+
+    });
+    console.log(patient);
+}
+
+
+
 
 //event listeners
 let first_form=document.getElementById('first_level_questions');
@@ -135,6 +172,8 @@ colitis_fh_crc.addEventListener("click", show_fh_questions);
 let lynch=document.getElementById("lynch");
 lynch.addEventListener("click", show_lynch_questions);
 
+let final_submit=document.getElementById("form_finished");
+final_submit.addEventListener("click", readForm)
 
 
 
