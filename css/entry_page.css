@@ -1,0 +1,64 @@
+.formblock{
+   
+    border: solid;
+    background-color: rgb(182, 193, 216);
+    flex:1 1 150px;
+      
+}
+.formblock>p{
+    margin:5px;
+    flex-wrap: wrap;
+}
+.formblock>p>input {
+    margin-right: 40px;
+}
+
+.hidden{
+    display: none;
+}
+#second_level_forms{
+    width:100%;
+    background-color: crimson;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#container_third-level_questions{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.radio{
+    white-space: nowrap;
+}
+#polyp_questions{
+
+    background-color: rgb(219, 150, 150);
+}
+#crc_questions{
+    background-color: rgb(191, 204, 132);
+}
+#genetic_risk_questions{
+    background-color: rgb(159, 219, 201);
+}
+#colitis_questions{
+    background-color: rgb(148, 187, 185);
+}
+
+#third_level_questions_polyps{
+    background-color: rgb(219, 150, 150);
+}
+
+#third_level_questions_piecemeal{
+    background-color: rgb(219, 150, 150);
+}
+
+#third_level_questions_fh{
+    background-color: rgb(159, 219, 201);
+} 
+#third_level_questions_lynch{
+    background-color: rgb(159, 219, 201);
+
+}

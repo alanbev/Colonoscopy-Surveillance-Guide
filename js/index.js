@@ -1,4 +1,5 @@
 let age;
+let crc=false
 
 
 
@@ -10,29 +11,29 @@ function additionalQuestions(e)
 
     
     let first_form_contents=document.getElementById('first_level_questions').elements;
-    patient.age= first_form_contents.age.value
+    age= first_form_contents.age.value
 
     if (first_form_contents["polyps"].checked)
     {
-    patient.polyps=true;
+    //patient.polyps=true;
     document.getElementById('polyp_questions').classList.remove("hidden");
     }
 
     if (first_form_contents["prev_crc"].checked)
     {
-    patient.crc=true;
+    crc=true;
     document.getElementById('crc_questions').classList.remove("hidden");
     }
 
     if (first_form_contents["genetic"].checked)
     {
-        patient.crc=true;
+        //patient.crc=true;
         document.getElementById('genetic_risk_questions').classList.remove("hidden");
     }
 
     if (first_form_contents["colitis"].checked)
     {
-        patient.crc=true;
+        //patient.crc=true;
         document.getElementById('colitis_questions').classList.remove("hidden");
     }   
 }
@@ -51,7 +52,7 @@ function show_prev_polp_questions(e)
             mult_polyp_question.setAttribute("id", "mult_polyp_container")
             
 
-            if (patient.age>=60 && !(document.getElementById("genetic").checked))
+            if (age>=60 && !(document.getElementById("genetic").checked))
                 {
                 mult_polyp_question.innerHTML=mult_polyps_20;  //from third_level_questions.js
                 }
@@ -70,6 +71,33 @@ function show_prev_polp_questions(e)
         third_level_questions_polyps.classList.add("hidden")
     } 
 
+}
+
+function show_piecemeal_polypectomy(e)
+{
+    if (e.target.checked)
+    {
+       
+        if (!!document.getElementById("piecemeal_container")===false)
+        {
+            let third_level_questions_piecemeal=document.getElementById("third_level_questions_piecemeal");
+            third_level_questions_piecemeal.classList.remove("hidden")
+            let piecemeal_questions=document.createElement("p");
+            piecemeal_questions.setAttribute("id", "piecemeal_container")
+            piecemeal_questions.innerHTML=piecemeal_polypectomy;  //from third_level_questions.js
+            third_level_questions_piecemeal.append(piecemeal_questions);
+        } 
+        
+    }
+    else if(!!document.getElementById("piecemeal_container") &&  !(document.getElementById("piecemeal_resection").checked ))
+    {
+        let piecemeal_container=document.getElementById("piecemeal_container"); 
+        piecemeal_container.remove();
+        let third_level_questions_piecemeal=document.getElementById("third_level_questions_piecemeal");
+        third_level_questions_piecemeal.classList.add("hidden")
+
+    }
+    
 }
 
 function show_fh_questions(e)
@@ -101,7 +129,7 @@ function show_lynch_questions(e)
 {
     if (e.target.checked)
     {
-        if (patient.age<35)
+        if (age<35)
         {
             if (!!document.getElementById("lynch_container")===false)
             {
@@ -148,7 +176,10 @@ allData.forEach(element=>
         }
 
     });
+    patient.date_now=Date.now()
     console.log(patient);
+    localStorage.setItem('patient', JSON.stringify(patient))
+    window.open('html/recommendations.html')
 }
 
 
@@ -163,6 +194,8 @@ prev_polyps.addEventListener("click", show_prev_polp_questions);
 let mcra=document.getElementById("mcra");
 mcra.addEventListener("click", show_prev_polp_questions);
 
+let piecemeal_polypectomy=document.getElementById("piecemeal_resection");
+piecemeal_polypectomy.addEventListener("click", show_piecemeal_polypectomy);
 
 let fh_crc=document.getElementById("fh_crc");
 fh_crc.addEventListener("click", show_fh_questions);

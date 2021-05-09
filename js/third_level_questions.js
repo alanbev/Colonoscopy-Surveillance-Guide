@@ -41,3 +41,31 @@ lynch_late_start=`
 <label for="lynch_late_start">Lynch MLH1/MSH2 type </label>
 <input type="checkbox" id="lynch_late_start" name="lynch_late_start"/>
 `
+
+
+
+
+piecemeal_polypectomy=`
+<p>For polyps resected piecemeal:-<p>
+    <p><label for="over_ten_mm_piecemeal">Sessile Polyp 10mm or larger</label>
+        <input type="checkbox" id="over_ten_mm_piecemeal" name="over_ten_mm_piecemeal"/>
+
+    <p><label for="hgd_piecemeal">HGD in this polyp </label>
+        <Input type="checkbox" id="hgd_piecemeal" name="hgd_piecemeal"/>
+
+    <p><label for="serr_dysplasia_piecemeal">Serrated polyp with dysplasia</label>
+        <input type="checkbox" id="serr_dysplasia_piecemeal" name="serr_dysplasia_piecemeal"/>
+    </p>`
+
+/*We suggest that where histological completeness of excision
+cannot be determined in patients with non-pedunculated
+polyps
+of 10–19 mm in size, or an adenoma containing high-grade
+dysplasia, or a serrated polyp containing any dysplasia, then a
+site-check
+should be considered within 2–6 months. The need
+for subsequent surveillance should then be determined based on
+the high-risk
+surveillance criteria.
+GRADE of evidence: Low
+Strength of recommendation: Weak*/

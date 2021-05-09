@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Colonososcopy Surveillance Guide</title>
-    <link rel="stylesheet" href="CSS/index.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/entry_page.css">
 </head>
 <body>
     <header>
@@ -55,14 +56,25 @@
     <input type="number" id="size_polyp" name="size_polyp"min="0"/>
     </p>
     <p>
-    <label for="lnpcp"> LNPCP</label>
+    <label for="lnpcp"> LNPCP(>2cm & not R0)</label>
     <input type="checkbox" id="lnpcp" name="lnpcp"/> 
+</p>
+    <p><label for="serr_dysplasia"> Dysplasia in serrated polyp</label>
+    <input type="checkbox" id="serr_dysplasia" name="serr_dysplasia"/>
     </p>
+    
    <p><label for="hgd">High grade Dysplasia</label>
     <input type="checkbox" id=hgd name="hgd"/>
+
     <p><label for="prev_polyps"> Multiple previous polyps</label>
        <input type="checkbox" id="prev_polyps" name="prev_polyps"> 
     </p>
+
+    <p><label for="piecemeal_resection"> Piecemeal resection of polyp</label>
+        <input type="checkbox" id="piecemeal_resection" name="piecemeal_resection"> 
+     </p>
+
+    
    
 </div>
 
@@ -149,6 +161,7 @@
   </div> </div>  
 <div id="container_third-level_questions">
     <div id="third_level_questions_polyps" class="formblock hidden"></div>
+    <div id="third_level_questions_piecemeal" class="formblock hidden"></div>
     <div id="third_level_questions_fh" class="formblock hidden" ></div>
     <div id=third_level_questions_lynch class="formblock hidden"></div>
 </div>
