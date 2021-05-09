@@ -61,6 +61,7 @@ const intScope=
                 }
             }
         if (patient.mult_polyp_question)
+        console.log(patient.num_polyps, typeof patient.num_polyps)
         {
             if (patient.num_polyps && (patient.age<=this.polyp_guide.old-1))//bug here- this is evaluating true with 0 polyps
                 {
@@ -70,6 +71,8 @@ const intScope=
             else if ((!patient.num_polyps) && (patient.age<=this.polyp_guide.old-2))
                 {
                 patient.polyp_int=2
+
+                console.log("entered else if")
                 }
 
         }

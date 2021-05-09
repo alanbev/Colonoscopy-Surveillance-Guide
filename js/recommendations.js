@@ -1,6 +1,9 @@
 
 
 let patient=JSON.parse(localStorage.getItem('patient'));
+patient.age=parseInt(patient.age)
+patient.num_polyps=parseInt(patient.num_polyps)
+patient.size_polyp=parseInt(patient.size_polyp)
 
 patient=intScope.calculate_interval(patient);
 
