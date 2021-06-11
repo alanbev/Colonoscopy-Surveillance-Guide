@@ -6,10 +6,16 @@ const intScope=
 {
     polyp_guide:   //data for polyp method
         {
-        young:50,    //10 years below BCSP age
-        old:75,    //max rec. age for screening
+        young: 50,    //10 years below BCSP age
+        old: 75,    //max rec. age for screening
         int: 3,    // rec. years for survaillance
         young_low_risk_int: 5 //surv. interval for low risk patients below BCSP age
+        },
+
+    crc_guide://data for crc method
+        {
+        firsst_crc_int: 1,  //years from resection to first surveillance
+        second_crc_int: 3, //  years from resection to second surveillance
         },
 
 
@@ -18,7 +24,7 @@ const intScope=
     calculate_interval(patient)
     //master method to call the methods needed 
         {
-        if (patient.polyps)  //polyps reported in first level questions.
+        if (patient.num_polyps)  //polyps reported in first level questions.
             {
             patient=this.polyp(patient)
             }
@@ -36,8 +42,13 @@ const intScope=
     {
         if (patient.age<=this.polyp_guide.old-this.polyp_guide.int)   
             {
+            //check if MCRAs criterio satisfied soley on this exam (in case checking button missed)
+            if (patient.num_polyps>20 || (patient.age<60 && patient.num_polyps>10))
+                {
+                patient.mult_polyp_question=true;
+                }
             //determine if advanced polyp present
-            advanced_polyp=false 
+            advanced_polyp=false; 
             if (patient.size_polyp>=10 || patient.serr_dysplasia || patient.hgd)
                 {
                 advanced_polyp=true;
@@ -61,7 +72,6 @@ const intScope=
                 }
             }
         if (patient.mult_polyp_question)
-        console.log(patient.num_polyps, typeof patient.num_polyps)
         {
             if (patient.num_polyps && (patient.age<=this.polyp_guide.old-1))//bug here- this is evaluating true with 0 polyps
                 {

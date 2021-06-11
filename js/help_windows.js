@@ -1,0 +1,2 @@
+//information box for serrated polyposis syndrome
+document.getElementById("sps_info").addEventListener("click", ()=> alert("Serrated Polypsis Syndrome WHO(2019):\nI>5 Serrated lesions proximal to the rectum, all being >5 mm in size, with >=2 being >=10 mm in size \nII) >20 Serrated lesions of any size distributed throughout the large bowel, with >=5 being proximal to the rectum. "));

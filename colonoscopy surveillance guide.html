@@ -17,8 +17,13 @@
 <div id="first_level_questions_block">
 <form id="first_level_questions" class="formblock" >
 
-<p><label for="age">Patient Age</label>   
-    <input type="number" id="age" name="age" min="0" required></input> </p>
+<p>
+<label for="dob">Patient D.0.B</label>
+<input type="date" id ="dob" name="dob">
+
+<label for="age">or  Patient Age</label>   
+<input type="number" id="age" name="age" min="0"/> 
+</p>
 
 <p> <label for="date">Date of last colonoscopy</label>
     <input type="date" id ="scopedate" name= "scopedate"/>  </p>
@@ -97,7 +102,7 @@
     <input type="checkbox" id="lynch" name="lynch"/></p>
 
 <p><label for="sps">Serrated Polyposis Syndrome(SPS) </label>
-    <input type="checkbox" id="sps" name="sps"/></p>
+    <input type="checkbox" id="sps" name="sps"/> <button id="sps_info">&#10067</button></p>
 
 <p><label for="fdr_sps">First Degree relative with SPS </label>
     <input type="checkbox" id="fdr_sps" name="fdr_sps"/></p>
@@ -136,9 +141,18 @@
     <input type="radio" id="severe_colitis_severity" name="colitis_severity" value=2/> 
 </p></p>
 
-</p><label for="l_colon_colitis"></label> Confined to left colon? </label>
-    <input type="checkbox" id="l_colon_colitis" name="l_colon_colitis">
-</p>
+<p>Extent of Colitis:->
+<p class=radio>
+<label for="proctitis" >Proctitis </label>
+<input type="radio" id = "proctitis" name="colitis_extent"/>
+
+<label for="half_colitis"> Left side or under 50%</label>
+<input type="radio" id = "half_colitis" name ="colitis_extent"/>
+
+<label for="extensive_colitis"> Extensive Colitis</label>
+<input type="radio" id ="extensive_colitis" name="colitis_extent"
+
+></p></p>
 
 <p><label for="inflam_polyps"> Inflammatory polyps </label>
     <input type="checkbox" id="inflam_polyps" name="inflam_polyps"/>
@@ -162,6 +176,7 @@
 <div id="container_third-level_questions">
     <div id="third_level_questions_polyps" class="formblock hidden"></div>
     <div id="third_level_questions_piecemeal" class="formblock hidden"></div>
+    <div id="third_level_questions_crc" class="formblock crc_questions hidden"></div>
     <div id="third_level_questions_fh" class="formblock hidden" ></div>
     <div id=third_level_questions_lynch class="formblock hidden"></div>
 </div>
@@ -169,12 +184,7 @@
 
 </form>
 
-
-
-
 </div>
-
-
 
 
 <footer>
@@ -191,7 +201,7 @@
 <!--<script src="js/patient.js"></script>-->
 <script src="js/index.js"></script>
 <script src="js/third_level_questions.js"></script>
-    
+<script src="js/help_windows.js"></script>
 
 </body>
 </html>
