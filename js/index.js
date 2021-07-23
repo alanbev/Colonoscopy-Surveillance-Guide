@@ -5,6 +5,7 @@ let date_today=new Date()
 let date_today_int=date_today.getTime()
 const msec_year=31536000000;
 const msec_three_years=94608000000
+let no_colonoscopy=false
 
 
 //callouts for adding questions to view
@@ -15,12 +16,47 @@ function additionalQuestions(e)
 
     
     let first_form_contents=document.getElementById('first_level_questions').elements;
-    age= first_form_contents.age.value
+   
+//check that either and age or date of birth has been entered and alert if not
+    if (!first_form_contents['dob'].value && !first_form_contents['age'].value)
+        {
+        alert("Please enter either the patient's age or date of birth")
+        return
+        }
+
+// if boyj age and date of birth entered , check that these match
+    if (first_form_contents['dob'].value && first_form_contents['age'].value)
+        {   
+        let calculated_age=Math.trunc((date_today - first_form_contents['dob'].valueAsNumber)/msec_year);
+        if (calculated_age != first_form_contents['age'].value)
+            {
+            alert("Date of Birth and stated age do not match")
+            return
+            }
+        }
+    else
+        {
+        age= first_form_contents.age.value
+        }
+
+//handle missing scope date by assking user to confirm no scope done or return to form to enter it
+    if (first_level_questions["scopedate"].value==="")
+        {
+        if (confirm("You have not entered at date for the patient's most recent colonoscopy. If the patient has never has colonoscopy, press OK to continue - otherwise press Cancel to return to the form and enter a colonoscopy date"))
+            {
+            var no_colonoscopy=true
+            }
+        else
+            {
+            return
+            }
+        }
+    
 
     if (first_form_contents["polyps"].checked)
-    {
-    document.getElementById('polyp_questions').classList.remove("hidden");
-    }
+        {
+        document.getElementById('polyp_questions').classList.remove("hidden");
+        }
 
     if (first_form_contents["prev_crc"].checked)
     {
@@ -94,7 +130,7 @@ function show_piecemeal_polypectomy(e)
             third_level_questions_piecemeal.classList.remove("hidden")
             let piecemeal_questions=document.createElement("p");
             piecemeal_questions.setAttribute("id", "piecemeal_container")
-            piecemeal_questions.innerHTML=piecemeal_polypectomy;  //from third_level_questions.js
+            piecemeal_questions.innerHTML=piecemeal_polypectomy_question;  //from third_level_questions.js
             third_level_questions_piecemeal.append(piecemeal_questions);
         } 
         
@@ -134,7 +170,7 @@ if (e.target.checked)
             {
             first_CRC_scopedate();
             }
-        }
+    }
     
 else if(!!document.getElementById("second_crc_container") &&  !(document.getElementById("first_surv_done").checked ))
 {
@@ -220,6 +256,73 @@ function show_lynch_questions(e)
     
 }
 
+function show_sps_questions(e)
+{
+    if (e.target.checked)
+    {
+    if (!no_colonoscopy)//only asks if a colonoacopy has been done
+        {
+        if (!!document.getElementById("sps_container")===false)
+            {
+            let third_level_questions_sps=document.getElementById("third_level_questions_sps");
+            third_level_questions_sps.classList.remove("hidden")
+            let sps_questions=document.createElement("p");
+            sps_questions.setAttribute("id", "sps_container")
+            if(!document.getElementById("polyps").checked)//if a colonoscopy recorded as done but no polyp results recorded, ask about polyps>10mm
+                {
+                var sps_questions_html=sps_first_question_html+sps_additional_question 
+                console.log(sps_questions_html)   
+                }
+            else
+                {
+                 var sps_questions_html=sps_first_question_html
+                }
+            sps_questions.innerHTML=sps_questions_html;  //from third_level_questions.js
+            third_level_questions_sps.append(sps_questions);
+            }
+        }   
+    } 
+    else if(!!document.getElementById("sps_container") &&  !(document.getElementById("sps").checked ))
+    {
+        let sps_container=document.getElementById("sps_container"); 
+        sps_container.remove();
+        let third_level_questions_sps=document.getElementById("third_level_questions_sps");
+        third_level_questions_sps.classList.add("hidden")
+
+    } 
+    
+}
+
+//additional question for pjs
+function show_pjs_questions(e)
+{
+    if (e.target.checked)
+    {
+        if ((age>=8 && age<=18) && (!document.getElementById("polyps").checked))// ask about prevous polyps if age 8-18 and has had previous colonoscopy 
+        {
+            if (!!document.getElementById("pjs_container")===false)
+            {
+                let third_level_questions_pjs=document.getElementById("third_level_questions_pjs");
+                third_level_questions_pjs.classList.remove("hidden")
+                let pjs_questions=document.createElement("p");
+                pjs_questions.setAttribute("id", "pjs_container")
+                pjs_questions.innerHTML=pjs_previous_polyps_html;  //from third_level_questions.js
+                third_level_questions_pjs.append(pjs_questions);
+            } 
+        }
+    }
+    else if(!!document.getElementById("pjs_container") &&  !(document.getElementById("pjs").checked ))
+    {
+        let pjs_container=document.getElementById("pjs_container"); 
+        pjs_container.remove();
+        let third_level_questions_pjs=document.getElementById("third_level_questions_pjs");
+        third_level_questions_pjs.classList.add("hidden")
+
+    } 
+    
+}
+
+
 function readForm(e)
 //funtion to read form date into patient object
 {
@@ -237,6 +340,10 @@ allData.forEach(element=>
             {
                 patient[element.name]=element.value;
             }
+        }
+        else if (element.type=="date")
+        {
+            patient[element.name]=element.valueAsNumber
         }
         else
         {
@@ -270,8 +377,14 @@ fh_crc.addEventListener("click", show_fh_questions);
 let colitis_fh_crc=document.getElementById("colitis_fh_crc");
 colitis_fh_crc.addEventListener("click", show_fh_questions);
 
+let sps=document.getElementById("sps")
+sps.addEventListener("click", show_sps_questions)
+
 let lynch=document.getElementById("lynch");
 lynch.addEventListener("click", show_lynch_questions);
+
+let pjs=document.getElementById("pjs");
+pjs.addEventListener("click", show_pjs_questions);
 
 let final_submit=document.getElementById("form_finished");
 final_submit.addEventListener("click", readForm)

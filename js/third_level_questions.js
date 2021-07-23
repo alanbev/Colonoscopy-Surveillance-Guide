@@ -1,10 +1,10 @@
 
-first_surv=`<p>
+var first_surv=`<p>
 <label for="first_surv_done"> First (year 1) surveillance colonoscopy done?</label>
 <input type="checkbox" id ="first_surv_done" name="first_surv_done"class="hidden"/>
 </p>`
 
-second_surv=`<p>Has second CRC Colonoscopy been done?</p> <p>(3 years after first CRC surveillance)</p>
+var second_surv=`<p>Has second CRC Colonoscopy been done?</p> <p>(3 years after first CRC surveillance)</p>
 <p>
 <label for="second_surv_done"> Yes</label>
 <input type="radio" id ="second_surv_done" value=true name="second_surv"/>
@@ -14,12 +14,12 @@ second_surv=`<p>Has second CRC Colonoscopy been done?</p> <p>(3 years after firs
 </p>
 </p>`
 
-date_first_crc_surveillance=`<p>
+var date_first_crc_surveillance=`<p>
 <label for="date_first_CRC_surveillance"> Date of first CRC surveillance colonoscopy</label>
 <input type="date" id="date_first_CRC_surveillance" name="date_first_CRC_surveillance" required />
 </p>`
 
-fh_html=`
+var fh_html=`
 <p>
 <!-- HTLM for 3rd level family history questions-->   
 <p id=fdr_checkbox> Number of FDRs with CRC:-
@@ -48,26 +48,49 @@ fh_html=`
 </p>
 `
 
-mult_polyps_20=`
+var mult_polyps_20=`
 <label for='mult_polyp_question'> More than 20 polyps in lifetime </label>
 <input type='checkbox' id='mult_polyp_question' name='mult_polyp_question'/>   
 `
 
-mult_polyps_10=`
+var mult_polyps_10=`
 <label for='mult_polyp_question'> More than 10 polyps in lifetime </label>
 <input type='checkbox' id='mult_polyp_question' name='mult_polyp_question'/>
 `
 
-lynch_late_start=`
+var lynch_late_start=`
 <label for="lynch_late_start">Lynch MLH1/MSH2 type </label>
-<input type="checkbox" id="lynch_late_start" name="lynch_late_start"/>
-`
+<input type="checkbox" id="lynch_late_start" name="lynch_late_start"/>`
+
+var sps_first_question_html=`<p>Has the colon been cleared of all polyps >5mm?</p> 
+<p>
+<label for="sps_colon_cleared_yes"> Yes</label>
+<input type="radio" id ="sps_colon_cleared_yes" value=true name="sps_colon_cleared"/>
+
+<label for="sps_colon_cleared_no">No</label>
+<input type="radio" id="sps_colon_cleared_no" value=false name="sps_colon_cleared"/>
+</p>`
+
+var sps_additional_question=`<p>Were there any polyps larger than 10mm on the patient's last colonoscopy?</p> 
+<p>
+<label for="sps_large_polyps_yes"> Yes</label>
+<input type="radio" id ="sps_large_polyps_yes" value=true name="sps_large_polyps"/>
+
+<label for="sps_large_polyps_no">No</label>
+<input type="radio" id="sps_large_polyps_no" value=false name="sps_large_polyps"/>
+</p>`
+    
+var pjs_previous_polyps_html=`<p>Has the patient had polyps on any previous colonoscopy?</p> 
+<p>
+<label for="pjs_prev_polyps_yes"> Yes</label>
+<input type="radio" id ="pjs_prev_polyps_yes" value=true name="pjs_prev_polyps"/>
+
+<label for="pjs_prev_polyps_no">No</label>
+<input type="radio" id="pjs_prev_polypsno" value=false name="pjs_prev_polyps"/>
+</p>`
 
 
-
-
-piecemeal_polypectomy=`
-<p>For polyps resected piecemeal:-<p>
+var piecemeal_polypectomy_question=`<p>For polyps resected piecemeal:-<p>
     <p><label for="over_ten_mm_piecemeal">Sessile Polyp 10mm or larger</label>
         <input type="checkbox" id="over_ten_mm_piecemeal" name="over_ten_mm_piecemeal"/>
 

@@ -1,18 +1,23 @@
+<p>Has the patient had polys on any previous colonoscopy?</p> 
 <p>
-    <label for="first_surv_done"> First (year 1) CRC surveillance colonoscophy done?</label>
-    <input type="checkbox" id ="first_surv_done" name="first_surv_done"/>
+<label for="pjs_prev_polyps_yes"> Yes</label>
+<input type="radio" id ="pjs_prev_polyps_yes" value=true name="pjs_prev_polyps"/>
+
+<label for="pjs_prev_polyps_no">No</label>
+<input type="radio" id="pjs_prev_polypsno" value=false name="pjs_prev_polyps"/>
 </p>
 
-<p>Has second CRC Colonoscopy been done?</p> <p>(3 years after first CRC surveillance)</p>
+
+
+
+<p>Were there any polyps larger than 10mm on the patient's last colonoscopy?</p> 
     <p>
-    <label for="second_surv_done"> Yes</label>
-    <input type="radio" id ="second_surv_done" value=true name="second_surv"/>
-
-    <label for="second_surv_not_done">No</label>
-    <input type="radio" id="second_surv_not_done" value+=false name="second_surv"/>
-</p>
-</p>
-<p>
-<label for="date_first_CRC_surveillance"> Date of first CRC surveillance colonoscopy</label>
-<input type="date" id="date_first_CRC_surveillance" name="date_first_CRC_surveillance" required />
-</p>
+    <label for="sps_large_polyps_yes"> Yes</label>
+    <input type="radio" id ="sps_colon_cleared_yes" value=true name="sps_large_polyps"/>
+    
+    <label for="sps_large_polyps_no">No</label>
+    <input type="radio" id="sps_large_polyps_no" value=false name="sps_large_polyps"/>
+    </p>
+    
+    
+    
