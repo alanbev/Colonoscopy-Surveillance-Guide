@@ -271,7 +271,6 @@ function show_sps_questions(e)
             if(!document.getElementById("polyps").checked)//if a colonoscopy recorded as done but no polyp results recorded, ask about polyps>10mm
                 {
                 var sps_questions_html=sps_first_question_html+sps_additional_question 
-                console.log(sps_questions_html)   
                 }
             else
                 {
@@ -338,6 +337,10 @@ allData.forEach(element=>
         {
             if(element.checked)
             {
+                if (element.value==="true")
+                    {element.value=true}
+                else if (element.value==="false")
+                    {element.value=false}
                 patient[element.name]=element.value;
             }
         }
@@ -352,7 +355,6 @@ allData.forEach(element=>
 
     });
     patient.date_now=Date.now()
-    console.log(patient);
     localStorage.setItem('patient', JSON.stringify(patient))
     window.open('html/recommendations.html')
 }

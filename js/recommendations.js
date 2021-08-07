@@ -14,7 +14,7 @@ patient=intScope.calculate_interval(patient);
 
 
 //for testing only
-document.getElementById("surv_int_test").innerText=(patient.final_int/msec_year)//+"crc"+typeof(patient.crc_interval)+ patient.crc_interval / msec_year;
+document.getElementById("surv_int_test").innerText=(patient.final_int)//+"crc"+typeof(patient.crc_interval)+ patient.crc_interval / msec_year;
 document.getElementById("first_site_check").innerText=patient.site_check
 document.getElementById("second_site_check").innerText=patient.second_site_check
 

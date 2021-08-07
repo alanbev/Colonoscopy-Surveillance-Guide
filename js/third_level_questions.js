@@ -28,7 +28,7 @@ var fh_html=`
  <input type="radio" id="no_fdr" name="numb_fdr" value=0>
 
 <label for="one_fdr"> One </label>
-<input type="radio" id="one_fdr" name="numb_fdr" value=1/>
+<input type="radio" id="one_fdr" name="numb_fdr" value=1>
 
 <label for="two_fdr">Two </label>
 <input type="radio" id="two_fdr" name="numb_fdr" value=2>
