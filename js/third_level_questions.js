@@ -49,7 +49,7 @@ var fh_html=`
 `
 
 var mult_polyps_20=`
-<label for='mult_polyp_question'> More than 20 polyps in lifetime </label>
+<label for='mult_polyp_question'> More than 20 polyps in lifetime\n or more than 10 polyps with a family history of CRC or multiple polyps </label>
 <input type='checkbox' id='mult_polyp_question' name='mult_polyp_question'/>   
 `
 

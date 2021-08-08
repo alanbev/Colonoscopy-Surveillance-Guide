@@ -3,12 +3,21 @@ const ms_three_years=94608000000;
 const a_hundred_years=3153600000000
 
 let patient=JSON.parse(localStorage.getItem('patient'));
-patient.age=parseInt(patient.age)
-patient.num_polyps=parseInt(patient.num_polyps)
+patient.age=parseFloat(patient.age)
+
+if (!patient.num_polyps)
+    {
+    patient.num_polyps=0
+    }
+else
+    {
+    patient.num_polyps=parseInt(patient.num_polyps)
+    }
 patient.size_polyp=parseInt(patient.size_polyp)
-patient.polyp_int=a_hundred_years
-patient.crc_interval=a_hundred_years
-patient.final_int=a_hundred_years
+patient.polyp_int=100
+patient.crc_interval=100
+patient.genetic_interval=100
+patient.final_int=100
 
 patient=intScope.calculate_interval(patient);
 

@@ -1,4 +1,4 @@
-let age;
+var age_to_use=0.00;
 let crc=false
 let first_crc_question_displayed=false
 let date_today=new Date()
@@ -24,7 +24,7 @@ function additionalQuestions(e)
         return
         }
 
-// if boyj age and date of birth entered , check that these match
+// if both age and date of birth entered , check that these match
     if (first_form_contents['dob'].value && first_form_contents['age'].value)
         {   
         let calculated_age=Math.trunc((date_today - first_form_contents['dob'].valueAsNumber)/msec_year);
@@ -34,9 +34,14 @@ function additionalQuestions(e)
             return
             }
         }
+    if (first_form_contents['dob'].value)
+        {
+        age_to_use=(date_today - first_form_contents['dob'].valueAsNumber)/msec_year
+        console.log(`age to use is ${age_to_use}`)
+        }
     else
         {
-        age= first_form_contents.age.value
+        age_to_use=first_form_contents['age'].value
         }
 
 //handle missing scope date by assking user to confirm no scope done or return to form to enter it
@@ -98,7 +103,7 @@ function show_prev_polp_questions(e)
             mult_polyp_question.setAttribute("id", "mult_polyp_container")
             
 
-            if (age>=60 && !(document.getElementById("genetic").checked))
+            if (age_to_use>=60)
                 {
                 mult_polyp_question.innerHTML=mult_polyps_20;  //from third_level_questions.js
                 }
@@ -353,8 +358,12 @@ allData.forEach(element=>
             patient[element.name]=element.value;
         }
 
+       
     });
+
     patient.date_now=Date.now()
+    patient.age=age_to_use
+
     localStorage.setItem('patient', JSON.stringify(patient))
     window.open('html/recommendations.html')
 }

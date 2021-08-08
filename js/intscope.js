@@ -36,7 +36,7 @@ const intScope=
             {
             patient=this.crc(patient)
             }
-            console.log(patient.polyp_int, patient.crc_interval)
+        
 
         if (patient.genetic)
             {
@@ -79,7 +79,7 @@ const intScope=
                 patient.polyp_int=this.polyp_guide.int;
                 console.log(patient.polyp_int)
                 }
-            //surveillance for young patients not meedting above criteria (age and interval set in polyp_guide)   
+            //surveillance for young patients not meeting above criteria (age and interval set in polyp_guide)   
             else if (patient.age<=this.polyp_guide.young)
                 {
                 patient.polyp_int=this.polyp_guide.young_low_risk_int;
@@ -90,18 +90,25 @@ const intScope=
                 patient.polyp_int=100; //arbitatry high interval;
                 }
             }
+
         if (patient.mult_polyp_question)
-        {
-            if (patient.num_polyps && (patient.age<=this.polyp_guide.old-1))//bug here- this is evaluating true with 0 polyps
+            {console.log("multiple polyps reached")
+
+            if (patient.scopedate===null)
                 {
-                patient.polyp_int=1
+                 patient.polyp_int=0  
                 }
 
-            else if ((!patient.num_polyps) && (patient.age<=this.polyp_guide.old-2))
+            else if (patient.num_polyps>0 && (patient.age<=this.polyp_guide.old-1))//bug here- this is evaluating true with 0 polyps
                 {
-                patient.polyp_int=2
+                patient.polyp_int=Math.min(1,patient.polyp_int)
+                }
 
-                
+            else if ((patient.num_polyps===0) && (patient.age<=this.polyp_guide.old-2))
+                {
+                patient.polyp_int=Math.min(2, patient.polyp_int)
+
+                console.log(patient.polyp_int)
                 }
 
         }
@@ -116,10 +123,8 @@ const intScope=
             }
           
          
-
-        patient.polyp_int=patient.polyp_int*this.msec_year-(patient.date_now-patient.scopedate)//milliseconds until colonoscopy due.
-          
-           return(patient)   
+        console.log(`polyp interval${patient.polyp_int}`)
+         return(patient)   
     },
 
 
@@ -152,7 +157,10 @@ const intScope=
             patient.crc_interval=patient.date_first_CRC_surveillance + this.msec_three_years - patient.date
             }
         }
-        
+    if (patient.crc_interval===null) 
+        {
+        patient.crc_interval=100
+        }
     return patient;
     },
 
@@ -215,7 +223,20 @@ const intScope=
 
         if (patient.jps)
         {
-        if (patient.age > 15)
+        if (patient.age >= 15)
+            {
+            if (patient.scopedate === null)
+                {
+                patient.genetic_interval=0
+                return patient
+                }
+            else
+                {
+                patient.genetic_interval=Math.min(2,patient.genetic_interval)
+                }
+            }
+        
+        else
             {
                 let provisional_interval=15-patient.age
                 if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
@@ -224,11 +245,12 @@ const intScope=
                     }
                 patient.genetic_interval=Math.min(patient.genetic_interval, provisional_interval)
             }
-        else
-        {
-            
-        }    
+      
+        
+         return patient
+           
         } 
+
     if (patient.pjs) 
         {
         if (patient.age<8)
@@ -327,13 +349,37 @@ const intScope=
                 {
                 patient.genetic_interval=Math.min(patient.genetic_interval, 100)
                 }
-
-
             
-            return patient
             }
-    
-    }
+
+        if (patient.lynch)
+            {
+            if (patient.scopedate===null && (patient.age>=35 || (patient.age>=25 && !patient.lynch_late_start)))
+                {
+                patient.genetic_interval=0
+                return patient
+                }
+            else if (patient.age>=35 || (patient.age>=25 && !patient.lynch_late_start))
+                {
+                patient.genetic_interval=Math.min(2,patient.genetic_interval)
+                }
+            else if (patient.lynch_late_start)
+                {
+                patient.genetic_interval=35-patient.age 
+                }
+            else
+                {
+                patient.genetic_interval=25-patient.age
+                }
+            }
+
+        if (patient.genetic_interval===null)
+                {
+                patient.genetic_interval=100
+                }
+        
+        return patient
+}
 
 
 
