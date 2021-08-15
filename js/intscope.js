@@ -40,11 +40,13 @@ const intScope=
 
         if (patient.genetic)
             {
-            console.log("genetic called")
             patient=this.genetic(patient)
-            console.log(patient.genetic_interval)
             }
-        patient.final_int = Math.min(patient.polyp_int, patient.crc_interval,patient.genetic_interval);
+        if (patient.colitis)
+            {
+            patient=this.colitis(patient)   
+            }
+        patient.final_int = Math.min(patient.polyp_int, patient.crc_interval,patient.genetic_interval, patient.colitis_interval);
         if (patient.age+patient.final_int>patient.old)//prevents surveillance examination over recommended sureillance age
             {
             patient.final_int=100
@@ -334,6 +336,7 @@ const intScope=
                         patient.genetic_interval=0
                         return patient
                         }
+                
                     
                     else 
                         {
@@ -379,8 +382,82 @@ const intScope=
                 }
         
         return patient
-}
+    },
 
+    colitis(patient)
+    //calculate surveillance interval based on colitis history
+    {
+    if (patient.psc)    //recommendation -annual colonoscopy from diagnosis if primary sclerosing cholangitis
+        {
+        if (patient.scopedate===null)
+            {
+            patient.colitis_interval=0     //scope now if no previous scope
+            return patient
+            }
+        else
+            {
+            patient.colitis_interval=1
+            return patient
+            }
+        }
+    var colitis_duration=(patient.date_now - patient.date_onset_colitis)/this.msec_year
 
+    if (colitis_duration < 8 ) //recommendation - otherwise surveillance starts 8 years from diagnosis
+        {
+        let prov_colitis_interval = 8 - colitis_duration
+        
+        if (!patient.scope_date)//uses calculated interval if no previous colonoscopy
+            {
+            patient.colitis_interval=prov_colitis_interval
+            return patient
+            }
+        else
+            {
+            patient_colitis_interval=Math.max(1, prov_colitis_interval)//if there is aprevious colonoscopy makes ure that date recommende don basis of symptoms is more than one year from this   
+            }
+
+        }          
+
+    if (patient.dysplasia || patient.stricture || (patient.colitis_severity ==="2" && patient.colitis_extent==="extensive"))
+    //dysyplasis, stgricture or severe extensive coitis = 1 year interval
+            {
+            patient.colitis_interval=1
+            return patient
+            }
+            
+    
+    if (patient.colitis_fh_crc)//family history of CRC
+        {console.log("familyhist")
+        if ((parseInt(patient.numb_fdr)>0))
+            {console.log(patient.numb_fdr)
+            if (patient.fdr_under_50)
+                {
+                patient.colitis_interval=1
+                return patient
+                }
+            else 
+                {
+                patient.colitis_interval=3
+                return patient
+                } 
+            }
+        }
+
+    if (patient.inflam_polyps || (patient.colitis_severity==="1" && patient.colitis_extent==="extensive"))
+        {
+        patient.colitis_interval=3
+        return patient
+        }
+
+    if (patient.colitis_extent==="extensive" || (patient.colitis_extent != "rectum"  && patient.colitis_severity != "0"))
+        {
+        patient.colitis_interval=5
+        return patient
+        }
+
+    patient.colitis_interval=100
+    return patient
+           
+    },
 
 }

@@ -1,6 +1,6 @@
 const msec_year=31536000000;
 const ms_three_years=94608000000;
-const a_hundred_years=3153600000000
+//const a_hundred_years=3153600000000
 
 let patient=JSON.parse(localStorage.getItem('patient'));
 patient.age=parseFloat(patient.age)
@@ -17,6 +17,7 @@ patient.size_polyp=parseInt(patient.size_polyp)
 patient.polyp_int=100
 patient.crc_interval=100
 patient.genetic_interval=100
+patient.colitis_inteval=100//
 patient.final_int=100
 
 patient=intScope.calculate_interval(patient);
