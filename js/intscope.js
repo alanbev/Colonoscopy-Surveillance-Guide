@@ -16,7 +16,7 @@ const intScope=
 
     crc_guide://data for crc method
         {
-        firsst_crc_int: 1,  //years from resection to first surveillance
+        first_crc_int: 1,  //years from resection to first surveillance
         second_crc_int: 3, //  years from resection to second surveillance
         },
 
@@ -37,7 +37,6 @@ const intScope=
             patient=this.crc(patient)
             }
         
-
         if (patient.genetic)
             {
             patient=this.genetic(patient)
@@ -46,7 +45,12 @@ const intScope=
             {
             patient=this.colitis(patient)   
             }
-        patient.final_int = Math.min(patient.polyp_int, patient.crc_interval,patient.genetic_interval, patient.colitis_interval);
+        if (patient.acromegaly)
+            {
+            patient=this.acromegaly(patient)
+            }
+        patient.final_int = Math.min(patient.polyp_int, patient.crc_interval, patient.genetic_interval, patient.colitis_interval, patient.acromegaly_interval);
+
         if (patient.age+patient.final_int>patient.old)//prevents surveillance examination over recommended sureillance age
             {
             patient.final_int=100
@@ -456,8 +460,35 @@ const intScope=
         }
 
     patient.colitis_interval=100
-    return patient
-           
+    return patient      
     },
+
+    acromegaly(patient)
+        {
+        if (patient.age >= 40)
+            {
+            if (patient.scopedate === null)
+                {
+                patient.acromegaly_interval=0
+                }
+            else
+                {
+                patient.acromegaly_interval=5
+                }
+            }
+        else
+            {
+            prov_acromegaly_inteval=40-patient.age
+            if (patient.scopedate=null)
+                {
+                patient.acromegaly_interval=prov_acromegaly_inteval
+                }
+            else
+                {
+                patient.acromegaly_interval=Math.max(prov_acromegaly_inteval,5)//prevents scope within 5 years of last examination
+                }
+            }
+        return patient
+        },
 
 }

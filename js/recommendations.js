@@ -17,7 +17,8 @@ patient.size_polyp=parseInt(patient.size_polyp)
 patient.polyp_int=100
 patient.crc_interval=100
 patient.genetic_interval=100
-patient.colitis_inteval=100//
+patient.colitis_interval=100
+patient.acromegaly_interval=100
 patient.final_int=100
 
 patient=intScope.calculate_interval(patient);
