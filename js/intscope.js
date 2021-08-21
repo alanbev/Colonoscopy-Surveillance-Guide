@@ -134,38 +134,45 @@ const intScope=
     },
 
 
-    crc(patient)
+    crc(patient)///this is faulty -needs debug!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //calculate inteval based on previous CRC
-    {console.log("crc-function")
-    if  (!!patient.scopedate)
+    {
+    if  (patient.scopedate)// date of last colonoscopy given
         {
-        crc_surv_interval=patient.scopedate - patient.crc_resected
+        let crc_surv_interval=patient.scopedate - patient.crc_resected
         if (crc_surv_interval <= 0)//last colonoscopy before cancer resection
-            {console.log("scope bfore resection")
-            console.log(patient.crc_resected/this.msec_year, patient.date_now/this.msec_year)
-            patient.crc_interval=patient.crc_resected + this.msec_year-patient.date_now
+            {
+            patient.crc_interval = (patient.crc_resected -patient.scopedate + this.msec_year) / this.msec_year
             }
+
         else if (crc_surv_interval < this.msec_three_years)//last colonoscopy not more than 3 years since resection
-            {console.log("scope <3 years from resection")
-            patient.crc_interval=patient.scopedate + this.msec_three_years - patient.date
+            {
+            patient.crc_interval=3
             }
-        
-            console.log("scope 3 years after resect")
+        else
+            {
+            patient.crc_interval = 100
+            }    
         }
     else
         {
-        if (!patient.firt_surv_done)
+        if (patient.first_surv_done)// date of colonsocopy not entered in first evel question but entered later when prompted if first survaillance doane
             {
-            patient.crc_interval=patient.crc_resected + this.msec_year-patient.date_now
+            patient.scopedate=patient.date_first_CRC_surveillance
+            if (patient.second_surv || ((patient.scopedate-patient.crc_resected)/this.msec_year >= 4 )) //both surveilance colonoscopies done or last colonoscopy was 4 years after resection.
+                {
+                patient.crc_interval = 100
+                }
+            else //only first surveilance colonoscopy done
+                {
+                patient.crc_interval = 3
+                }
             }
-        else if (patient.firt_surv_done && !patient.second_surv)
+        
+        else// prev crc and never has a scope
             {
-            patient.crc_interval=patient.date_first_CRC_surveillance + this.msec_three_years - patient.date
+            patient.crc_interval=0    
             }
-        }
-    if (patient.crc_interval===null) 
-        {
-        patient.crc_interval=100
         }
     return patient;
     },

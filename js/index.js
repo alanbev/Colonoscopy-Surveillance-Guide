@@ -80,7 +80,7 @@ function additionalQuestions(e)
     }  
    
    
-    if (crc && !first_crc_question_displayed && !first_form_contents["scopedate"].value ) //handles CRC with no prev colooscopy date specified i.e asks if first scope done- if not surveillance will be due bassed on rescetion date.- if it is, will request first surv date and calculates from that 
+    if (crc && !first_crc_question_displayed && first_form_contents["scopedate"].value === "" ) //handles CRC with no prev colooscopy date specified i.e asks if first scope done- if not surveillance will be due bassed on rescetion date.- if it is, will request first surv date and calculates from that 
         {
             first_crc_question_displayed=true; //prevents question displaying twice
             let first_surv_question=document.createElement("p");
