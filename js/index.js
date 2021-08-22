@@ -6,6 +6,8 @@ let date_today_int=date_today.getTime()
 const msec_year=31536000000;
 const msec_three_years=94608000000
 let no_colonoscopy=false
+let colitis_flag = false;//flag used later for checking information provided on colitis for
+let new_colitis=false
 
 
 //callouts for adding questions to view
@@ -44,7 +46,7 @@ function additionalQuestions(e)
         age_to_use=first_form_contents['age'].value
         }
 
-//handle missing scope date by assking user to confirm no scope done or return to form to enter it
+//handle missing scope date by asking user to confirm no scope done or return to form to enter it
     if (first_level_questions["scopedate"].value==="")
         {
         if (confirm("You have not entered at date for the patient's most recent colonoscopy. If the patient has never has colonoscopy, press OK to continue - otherwise press Cancel to return to the form and enter a colonoscopy date"))
@@ -56,7 +58,7 @@ function additionalQuestions(e)
             return
             }
         }
-    
+    document.getElementById("form_finished").classList.remove("hidden")
 
     if (first_form_contents["polyps"].checked)
         {
@@ -74,9 +76,11 @@ function additionalQuestions(e)
         document.getElementById('genetic_risk_questions').classList.remove("hidden");
     }
 
+  
     if (first_form_contents["colitis"].checked)
     {
         document.getElementById('colitis_questions').classList.remove("hidden");
+        colitis_flag = true;
     }  
    
    
@@ -330,6 +334,24 @@ function show_pjs_questions(e)
 function readForm(e)
 //funtion to read form date into patient object
 {
+if (colitis_flag)
+{
+    colitis_onset=document.getElementById("date_onset_colitis").value
+    console.log(colitis_flag)
+    console.log(colitis_onset)
+    if (!colitis_onset)
+    {
+    if (confirm("You have not entered at date for the date of onset of the patient's colitis- if this is a new diagnosis press OK to record the date as now - otherwise press Cancel to return to the form and enter a colonoscopy date"))
+        {
+        new_colitis=true
+        }
+    else
+        {
+        return
+        }
+    }
+
+}
 let patient={};   
 let allData = document.querySelectorAll("input");
 allData.forEach(element=>
@@ -358,6 +380,11 @@ allData.forEach(element=>
             patient[element.name]=element.value;
         }
 
+        if (new_colitis)
+            {
+            console.log(`new colitis ${new_colitis}`)
+            patient["date_onset_colitis"] = Date.now()
+            }
        
     });
 

@@ -12,11 +12,21 @@ header {
     margin:auto;  
 }
 
+#accreditation{
+font-size: 8pt;
+display:block;
+width: 25%;
+position: fixed;
+bottom: 0;
+right: 0;
+}
+
 footer {
+    font-size: 9;
     display:block;
     border: black solid;
     position:fixed;
-    width: auto;
+    width: 50%;
     bottom: 0;
     background-color: lightgoldenrodyellow;
 }
