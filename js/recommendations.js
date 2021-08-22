@@ -36,27 +36,52 @@ var commentary_text=""
 var whether_prev_scope_ender=""
 if (patient.scopedate)
     {
-    whether_prev_scope_ender= " years from the patient's last colonoscopy"   
+    whether_prev_scope_ender= " from the patient's last colonoscopy."   
     }
 else
     {
-    whether_prev_scope_ender=" years from now"   
+    whether_prev_scope_ender="  from now."   
     }
-if (patient.polyps)
+if (patient.polyps || patient.mult_polyp_question)
 {
-let start_polyp_text=`Based on the patient's history of ${patient.num_polyps} polyps with the largest being ${patient.size_polyp} mm the recommendation would be `
+let start_polyp_text = `Based on the patient's history of`
+
+if (patient.num_polyps >0)
+{
+ start_polyp_text+=` ${patient.num_polyps} polyps with the largest being ${patient.size_polyp} mm`
+    if (patient.mult_polyp_question)
+    {
+    start_polyp_text+=` and`
+    }
+}
+if (patient.mult_polyp_question)
+    {
+    start_polyp_text+= ` previous polyps`
+    }
+ 
+ start_polyp_text += ` the recommendation would be `
+
 let end_polyp_text=""
 if (patient.polyp_int === 0)
     {
-    end_polyp_text= ` a completion colonoscopy now`
+    end_polyp_text= ` a completion colonoscopy now.`
     }
 else if (patient.polyp_int === 100)
     {
-    end_polyp_text = `no routine polyp surveillance`
+    end_polyp_text = `no routine polyp surveillance.`
     }
 else
     {
-    end_polyp_text= `a surveillance colonoscopy ${patient.polyp_int} ${whether_prev_scope_ender}.`
+    let years=Math.floor(patient.polyp_int)
+    let months= Math.floor((patient.polyp_int-years)*12)
+    if (months === 0)
+        {
+        end_polyp_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+        }
+    else
+        {
+        end_polyp_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+        }
     }
     polyp_text=start_polyp_text + end_polyp_text
 
@@ -71,15 +96,24 @@ if (patient.prev_crc)
     let end_crc_text=""
     if (patient.crc_interval === 0)
         {
-        end_crc_text= ` a cancer surveillance colonoscopy now`
+        end_crc_text= ` a cancer surveillance colonoscopy now.`
         }
     else if (patient.crc_interval === 100)
         {
-        end_crc_text = `no further routine colonoscopic cancer surveillance`
+        end_crc_text = `no further routine colonoscopic cancer surveillance.`
         }
     else
         {
-            end_crc_text= `a cancer surveillance colonoscopy ${patient.crc_interval} ${whether_prev_scope_ender}.`
+            let years=Math.floor(patient.crc_interval)
+            let months= Math.floor((patient.crc_interval - years)*12)
+            if (months === 0)
+                {
+                end_crc_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+                }
+            else
+                {
+                end_crc_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+                }
         }
     crc_text=start_crc_text + end_crc_text
 
@@ -102,7 +136,16 @@ if (patient.prev_crc)
         }
     else
         {
-        end_genetic_text= `a surveillance colonoscopy ${patient.genetic_interval} ${whether_prev_scope_ender}.`
+            let years=Math.floor(patient.genetic_interval)
+            let months= Math.floor((patient.genetic_interval - years)*12)
+            if (months === 0)
+                {
+                end_genetic_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+                }
+            else
+                {
+                end_genetic_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+                }
         }
     genetic_text=start_genetic_text + end_genetic_text
 
@@ -116,15 +159,24 @@ if (patient.prev_crc)
     let end_colitis_text=""
     if (patient.colitis_interval === 0)
         {
-        end_colitis_text= ` a surveillance colonoscopy now`
+        end_colitis_text= ` a surveillance colonoscopy now.`
         }
     else if (patient.colitis_interval === 100)
         {
-        end_colitis_text = `no further routine colonoscopic colitis surveillance`
+        end_colitis_text = `no further routine colonoscopic colitis surveillance.`
         }
     else
         {
-        end_colitis_text= `a surveillance colonoscopy ${patient.colitis_interval} ${whether_prev_scope_ender}.`
+            let years=Math.floor(patient.colitis_interval)
+            let months= Math.floor((patient.colitis_interval - years)*12)
+            if (months === 0)
+                {
+                end_colitis_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+                }
+            else
+                {
+                end_colitis_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+                }
         }
     colitis_text=start_colitis_text + end_colitis_text
 
@@ -138,15 +190,24 @@ if (patient.prev_crc)
     let end_acromegaly_text=""
     if (patient.acromegaly_interval === 0)
         {
-        end_acromegaly_text= ` a surveillance colonoscopy now`
+        end_acromegaly_text= ` a surveillance colonoscopy now.`
         }
     else if (patient.acromegaly_interval === 100)
         {
-        end_acromegaly_text = `no further routine colonoscopic acromegaly surveillance`
+        end_acromegaly_text = `no further routine colonoscopic acromegaly surveillance.`
         }
     else
         {
-        end_acromegaly_text= `a surveillance colonoscopy ${patient.acromegaly_interval} ${whether_prev_scope_ender}.`
+            let years=Math.floor(patient.acromegaly_interval)
+            let months= Math.floor((patient.acromegaly_interval - years)*12)
+            if (months === 0)
+                {
+                end_acromegaly_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+                }
+            else
+                {
+                end_acromegaly_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+                }
         }
     acromegaly_text=start_acromegaly_text + end_acromegaly_text
 
@@ -158,28 +219,104 @@ if (patient.prev_crc)
     let end_final_text=""
     if (patient.final_int === 0)
         {
-        end_final_text= ` a surveillance colonoscopy now`
+        end_final_text= ` a surveillance colonoscopy now.`
         }
     else if (patient.final_int === 100)
         {
-        end_final_text = `no further routine colonoscopic surveillance`
+        end_final_text = `no further routine colonoscopic surveillance.`
         }
     else
         {
-        end_final_text= `a surveillance colonoscopy ${patient.final_int} ${whether_prev_scope_ender}.`
+            let years=Math.floor(patient.final_int)
+            let months= Math.floor((patient.final_int - years)*12)
+            if (months === 0)
+                {
+                end_final_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
+                }
+            else
+                {
+                end_final_text= `a surveillance colonoscopy ${years} years and ${months} months ${whether_prev_scope_ender}.`
+                }
         }
     final_text=start_final_text + end_final_text
 
     commentary_text += final_text
-    
-//Ad paragraph on site check here!!!!!!!!!!
+
+    let recommendation_text=""
+    let next_colonoscopy_time
+    let next_colonoscopy_date
+    if (patient.scopedate==="")
+        {
+        next_colonoscopy_time=patient.final_int
+        }
+    else
+        {
+        next_colonoscopy_time=patient.final_int-(patient.date_now-patient.scopedate)/msec_year
+        }
+
+    next_colonoscopy_date=  new Date(patient.date_now + next_colonoscopy_time * msec_year).toDateString()
+console.log(patient.date_now)
+console.log(next_colonoscopy_time)
+console.log(next_colonoscopy_date)
+
+
+let start_recommendation_text=`The recommendation is `
+    let end_recommendation_text=""
+    if (patient.final_int === 0)
+        {
+        end_recommendation_text= ` a surveillance colonoscopy now.`
+        }
+    else if (patient.final_int === 100)
+        {
+        end_recommendation_text = `no further routine colonoscopic surveillance.`
+        }
+    else
+        {
+        let years=Math.floor(next_colonoscopy_time)
+        let months= Math.floor((next_colonoscopy_time - years)*12)
+        if (months === 0)
+            {
+            end_recommendation_text= `a surveillance colonoscopy ${years} years from now.`
+            }
+
+        else if (years === 0)
+            {
+            end_recommendation_text= `a surveillance colonoscopy  ${months} months from now.`
+            }
+
+        else
+            {
+            end_recommendation_text= `a surveillance colonoscopy ${years} years and ${months} months from now.`
+            }
+
+        date_text=` which will be around ${next_colonoscopy_date}.`
+        end_recommendation_text += date_text   
+        }
+    recommendation_text = start_recommendation_text + end_recommendation_text
+     
+
+
+site_check_text=""
+if (patient.site_check)
+
+    {
+    document.getElementById("site_check_outer_holder").classList.remove("hidden")
+    site_check_text=`Due to the nature of the polyps which were removed, a site check in 2-6 monthe time should be considered.  `
+    if (patient.second_site_check)
+        {
+        site_check_text +=`Since there was a Large Non-Pedunculated Colorectal Polyp (LNPCP) without a confirmed R0 resection margin, an additional site check 12 months after the first site check is recommeded.  `
+        }
+    site_check_text += `The site check should be carried out but either flexible sigmoidoscopy or colonoscopy depending on the location of the most proximal polyp of concern.`
+    }
+
+
+
 
 console.log(commentary_text)
 
 document.getElementById("commentary_holder").innerText=commentary_text
-//for testing only
+document.getElementById("recommendation_holder").innerText=recommendation_text
+document.getElementById("site_check_holder").innerText=site_check_text
 
-document.getElementById("first_site_check").innerText=patient.site_check
-document.getElementById("second_site_check").innerText=patient.second_site_check
 
 

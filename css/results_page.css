@@ -1,0 +1,37 @@
+.outer_holder{
+width: 95%;
+border: solid black;
+background-color: lightblue;
+text-align: center;
+margin :auto;
+margin-bottom: 30px;
+}
+#commentary_holder{
+width: 90%;
+margin:auto;
+border:solid black;
+background-color: rgb(189, 223, 174);
+text-align: left;
+padding: 10px;
+margin-bottom: 20px;
+}
+
+#recommendation_holder{
+    width: 90%;
+    margin:auto;
+    border:solid black;
+    background-color: rgb(223, 174, 178);
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 20px;
+    }
+
+    #site_check_holder{
+        width: 90%;
+        margin:auto;
+        border:solid black;
+        background-color: rgb(217, 223, 174);
+        text-align: left;
+        padding: 10px;
+        margin-bottom: 20px;
+        }

@@ -342,7 +342,7 @@ const intScope=
                 if (patient.age>=55)
                     {
                         //never had a scope or not had a scope since 55 or inthe last 3 years
-                    if (patient.scopedate===null || (patient.date-now-patient.scopedate)/this.msec_year>3  && patient.age - ((patient.date_now-patient.scopedate)/this.msec_year)>55)
+                    if (patient.scopedate==="" || (patient.date_now-patient.scopedate)/this.msec_year>3  && patient.age - ((patient.date_now-patient.scopedate)/this.msec_year)>55)
                         {
                         patient.genetic_interval=0
                         return patient
