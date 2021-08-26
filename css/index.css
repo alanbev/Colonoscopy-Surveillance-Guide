@@ -31,9 +31,13 @@ footer {
     bottom: 0;
     background-color: lightgoldenrodyellow;
 }
-    @media (max-width: 750px)
+    @media (orientation: portrait)
     {
-    footer{font-size:6pt;}
+    footer{
+    font-size:6pt;
+    max-width: 70%;
+
+}
       
 }
 
