@@ -76,7 +76,14 @@ background-color: lightgoldenrodyellow;
 }
 
 #form_finished{
-background-color: lightgreen;   
+background-color: lightgreen;
+margin-bottom:5px;   
+}
+
+@media (max-width: 755px)
+{
+.formblock>p>label {
+margin-right: 15px;}
 }
 
 

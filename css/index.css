@@ -22,15 +22,21 @@ right: 0;
 }
 
 footer {
-    font-size: 9;
+    font-size: 9pt;
     display:block;
     border: black solid;
     position:fixed;
-    width: auto;
+    max-width: 70%;
     height:auto;
     bottom: 0;
     background-color: lightgoldenrodyellow;
 }
+    @media (max-width: 750px)
+    {
+    footer{font-size:6pt;}
+      
+}
+
 
 footer>p{
     margin:3px;
@@ -38,4 +44,7 @@ footer>p{
 
 .hidden{
     display: none;
+}
+label{
+white-space: nowrap;
 }
