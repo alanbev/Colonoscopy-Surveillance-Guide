@@ -9,7 +9,7 @@
     margin:5px;
     flex-wrap: wrap;
 }
-.formblock>p>input {
+.formblock>p>label {
     margin-right: 40px;
 }
 

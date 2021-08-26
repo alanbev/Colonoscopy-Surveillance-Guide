@@ -26,7 +26,8 @@ footer {
     display:block;
     border: black solid;
     position:fixed;
-    width: 50%;
+    width: auto;
+    height:auto;
     bottom: 0;
     background-color: lightgoldenrodyellow;
 }
