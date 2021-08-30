@@ -346,7 +346,7 @@ const intScope=
                 {
                  if (patient.fdr_multi_gen && patient.fdr_under_50 && !patient.lynch)
                     {
-                     if (confirm("Potential Lynch Family \n If genetic testing has not been carried out, the patient should be refered for this.  If genetic testing is not possible consider surveillance as Lynch syndrome. CLick OK to treat as presumed Lynch syndrome or cancel "))
+                     if (confirm("Potential Lynch Family \n If genetic testing has not been carried out, the patient should be refered for this.  If genetic testing is not possible consider surveillance as Lynch syndrome. Click OK to treat as presumed Lynch syndrome or Cancel to regart as not Lynch "))
                         {
                          patient.lynch=true
                         }
