@@ -21,6 +21,12 @@ bottom: 0;
 right: 0;
 }
 
+#clear_form{
+    float: right;
+    background-color: magenta;
+}
+
+
 footer {
     font-size: 9pt;
     display:block;
@@ -36,9 +42,7 @@ footer {
     footer{
     font-size:6pt;
     max-width: 70%;
-
-}
-      
+    }     
 }
 
 

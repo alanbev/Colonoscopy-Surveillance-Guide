@@ -18,6 +18,7 @@ const intScope=
         {
         first_crc_int: 1,  //years from resection to first surveillance
         second_crc_int: 3, //  years from resection to second surveillance
+        bcs_age: 60 // vurrent age to start bowel cancer screening
         },
 
        
@@ -30,16 +31,34 @@ const intScope=
         if (patient.num_polyps || patient.mult_polyp_question)  //polyps reported in first level questions.
             {
             patient=this.polyp(patient)
+            if (patient.polyp_int + patient.age > 75)
+                {
+                patient.polyp_int = 100
+                patient.polyp_age_exclusion=true
+                }
             }
 
         if (patient.prev_crc)//hist of crc reported in first level questions
             {
             patient=this.crc(patient)
+            if (patient.crc_interval + patient.age > 75)
+                {
+                patient.crc_interval = 100
+                patient.crc_age_exclusion=true
+                }
             }
         
         if (patient.genetic)
             {
             patient=this.genetic(patient)
+            {
+            if (patient.genetic_interval + patient.age > 75 && !(patient.mutyh || patient.fap || patient.jps))
+                {
+                patient.genetic_interval = 100
+                patient.genetic_age_exclusion=true
+                }
+            }
+
             }
         if (patient.colitis)
             {
@@ -51,10 +70,7 @@ const intScope=
             }
         patient.final_int = Math.min(patient.polyp_int, patient.crc_interval, patient.genetic_interval, patient.colitis_interval, patient.acromegaly_interval);
 
-        if (patient.age+patient.final_int>patient.old)//prevents surveillance examination over recommended sureillance age
-            {
-            patient.final_int=100
-            }
+        
             
         console.log(patient.final_int);
         return(patient)    
@@ -77,7 +93,7 @@ const intScope=
                 {
                 this.advanced_polyp=true;
                 }
-
+           
             //determine interval
             //2 or more polyps inc advanced polyps or 5 or more polyps - inteval set in polyp_guide
             if ( (this.advanced_polyp && patient.num_polyps>1) || (patient.num_polyps>4) )
@@ -96,6 +112,7 @@ const intScope=
                 patient.polyp_int=100; //arbitatry high interval;
                 }
             }
+        
 
         if (patient.mult_polyp_question)
             {console.log("multiple polyps reached")
@@ -113,11 +130,15 @@ const intScope=
             else if ((patient.num_polyps===0) && (patient.age<=this.polyp_guide.old-2))
                 {
                 patient.polyp_int=Math.min(2, patient.polyp_int)
-
-                console.log(patient.polyp_int)
                 }
 
         }
+        if (patient.num_polyps>0 && patient.scopedate===null)// completion colonoscopy if polyps and not had full colonoscopy
+            {
+            patient.polyp_int=0
+            }
+
+
         // determine if site check needed for large lnpcp or piecemeal polypectomy
         if (patient.lnpcp  || patient.over_ten_mm_piecemeal || patient.hgd_piecemeal || patient.serr_dysplasia_piecemeal )
             {
@@ -129,12 +150,11 @@ const intScope=
             }
           
          
-        console.log(`polyp interval${patient.polyp_int}`)
          return(patient)   
     },
 
 
-    crc(patient)///this is faulty -needs debug!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    crc(patient)
     //calculate inteval based on previous CRC
     {
     if  (patient.scopedate)// date of last colonoscopy given
@@ -174,6 +194,14 @@ const intScope=
             patient.crc_interval=0    
             }
         }
+
+    if ((patient.age-(patient.date_now-patient.crc_resected)/this.msec_year < 50) && patient.age <= (this.crc_guide.bcs_age-5))
+    //recommendateion that pateints diagnosed wit owel cancer before age 50 should have 5 yearly colonoscopy up to bowel cancer screening age
+        {
+        patient.crc_interval=Math.min(patient.crc_interval, 5)
+        }
+
+
     return patient;
     },
 
@@ -318,7 +346,7 @@ const intScope=
                 {
                  if (patient.fdr_multi_gen && patient.fdr_under_50 && !patient.lynch)
                     {
-                     if (confirm("Potential Lynch Family \n If genetic testing has not been carried out, the pateint should be refered for this.  If genetic testing is not possible consider surveillance as Lynch syndrome. CLick OK to treat as presumed Lynch syndrome or cancel "))
+                     if (confirm("Potential Lynch Family \n If genetic testing has not been carried out, the patient should be refered for this.  If genetic testing is not possible consider surveillance as Lynch syndrome. CLick OK to treat as presumed Lynch syndrome or cancel "))
                         {
                          patient.lynch=true
                         }

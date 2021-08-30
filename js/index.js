@@ -1,11 +1,12 @@
-var age_to_use=0.00;
-let crc=false
+let age_to_use=0.00; //declare variable for patient age
+let crc=false //flag to show crc resected option ticked
+let polyps=false //flag to show polyps on colonscopy option ticked
 let first_crc_question_displayed=false
 let date_today=new Date()
 let date_today_int=date_today.getTime()
 const msec_year=31536000000;
 const msec_three_years=94608000000
-let no_colonoscopy=false
+let no_colonoscopy=false //flag for colonoscopy not done
 let colitis_flag = false;//flag used later for checking information provided on colitis for
 let new_colitis=false
 
@@ -15,6 +16,11 @@ let new_colitis=false
 function additionalQuestions(e)
 {
     e.preventDefault();
+
+//protects against user editing date of birth, age or colonscopy date after selecting additional questions- forces rerun of additional questions  
+document.getElementById("dob").addEventListener("change",additionalQuestions)
+document.getElementById("age").addEventListener("change",additionalQuestions)
+document.getElementById("scopedate").addEventListener("change",additionalQuestions)
 
     
     let first_form_contents=document.getElementById('first_level_questions').elements;
@@ -30,7 +36,7 @@ function additionalQuestions(e)
     if (first_form_contents['dob'].value && first_form_contents['age'].value)
         {   
         let calculated_age=Math.trunc((date_today - first_form_contents['dob'].valueAsNumber)/msec_year);
-        if (calculated_age != first_form_contents['age'].value)
+        if (calculated_age != parseInt(first_form_contents['age'].value))
             {
             alert("Date of Birth and stated age do not match")
             return
@@ -39,17 +45,16 @@ function additionalQuestions(e)
     if (first_form_contents['dob'].value)
         {
         age_to_use=(date_today - first_form_contents['dob'].valueAsNumber)/msec_year
-        console.log(`age to use is ${age_to_use}`)
         }
     else
         {
-        age_to_use=first_form_contents['age'].value
+        age_to_use=parseInt(first_form_contents['age'].value)
         }
 
 //handle missing scope date by asking user to confirm no scope done or return to form to enter it
     if (first_level_questions["scopedate"].value==="")
         {
-        if (confirm("You have not entered at date for the patient's most recent colonoscopy. If the patient has never has colonoscopy, press OK to continue - otherwise press Cancel to return to the form and enter a colonoscopy date"))
+        if (confirm("You have not entered a date for the patient's most recent colonoscopy. If the patient has never had a colonoscopy, press OK to continue - otherwise press Cancel to return to the form and enter a colonoscopy date"))
             {
             var no_colonoscopy=true
             }
@@ -58,31 +63,34 @@ function additionalQuestions(e)
             return
             }
         }
+
+
     document.getElementById("form_finished").classList.remove("hidden")
 
     if (first_form_contents["polyps"].checked)
         {
+        polyps=true
         document.getElementById('polyp_questions').classList.remove("hidden");
         }
 
     if (first_form_contents["prev_crc"].checked)
-    {
-    crc=true;
-    document.getElementById('crc_questions').classList.remove("hidden");
-    }
+        {
+        crc=true;
+        document.getElementById('crc_questions').classList.remove("hidden");
+        }
 
     if (first_form_contents["genetic"].checked)
-    {
+        {
         document.getElementById('genetic_risk_questions').classList.remove("hidden");
-    }
+        }
 
   
     if (first_form_contents["colitis"].checked)
-    {
+        {
         document.getElementById('colitis_questions').classList.remove("hidden");
         colitis_flag = true;
-    }  
-   
+        }  
+    
    
     if (crc && !first_crc_question_displayed && first_form_contents["scopedate"].value === "" ) //handles CRC with no prev colooscopy date specified i.e asks if first scope done- if not surveillance will be due bassed on rescetion date.- if it is, will request first surv date and calculates from that 
         {
@@ -240,9 +248,9 @@ function show_fh_questions(e)
 function show_lynch_questions(e)
 {
     if (e.target.checked)
-    {
-        if (age<35)
-        {
+    {   console.log("lynch")
+        if(age_to_use<35)
+        {console.log("young lynch")
             if (!!document.getElementById("lynch_container")===false)
             {
                 let third_level_questions_lynch=document.getElementById("third_level_questions_lynch");
@@ -269,21 +277,21 @@ function show_sps_questions(e)
 {
     if (e.target.checked)
     {
-    if (!no_colonoscopy)//only asks if a colonoacopy has been done
+    if (!no_colonoscopy)//only asks if a colonoscopy has been done
         {
         if (!!document.getElementById("sps_container")===false)
             {
             let third_level_questions_sps=document.getElementById("third_level_questions_sps");
-            third_level_questions_sps.classList.remove("hidden")
+            third_level_questions_sps.classList.remove("hidden");
             let sps_questions=document.createElement("p");
-            sps_questions.setAttribute("id", "sps_container")
+            sps_questions.setAttribute("id", "sps_container");
             if(!document.getElementById("polyps").checked)//if a colonoscopy recorded as done but no polyp results recorded, ask about polyps>10mm
                 {
                 var sps_questions_html=sps_first_question_html+sps_additional_question 
                 }
             else
                 {
-                 var sps_questions_html=sps_first_question_html
+                 var sps_questions_html=sps_first_question_html;
                 }
             sps_questions.innerHTML=sps_questions_html;  //from third_level_questions.js
             third_level_questions_sps.append(sps_questions);
@@ -295,7 +303,7 @@ function show_sps_questions(e)
         let sps_container=document.getElementById("sps_container"); 
         sps_container.remove();
         let third_level_questions_sps=document.getElementById("third_level_questions_sps");
-        third_level_questions_sps.classList.add("hidden")
+        third_level_questions_sps.classList.add("hidden");
 
     } 
     
@@ -335,23 +343,51 @@ function readForm(e)
 //funtion to read form date into patient object
 {
 if (colitis_flag)
-{
-    colitis_onset=document.getElementById("date_onset_colitis").value
-    console.log(colitis_flag)
-    console.log(colitis_onset)
-    if (!colitis_onset)
     {
-    if (confirm("You have not entered at date for the date of onset of the patient's colitis- if this is a new diagnosis press OK to record the date as now - otherwise press Cancel to return to the form and enter a colonoscopy date"))
+        colitis_onset=document.getElementById("date_onset_colitis").value
+        console.log(colitis_flag)
+        console.log(colitis_onset)
+        if (!colitis_onset)
         {
-        new_colitis=true
-        }
-    else
-        {
-        return
+        if (confirm("You have not entered at date for the date of onset of the patient's colitis- if this is a new diagnosis press OK to record the date as now - otherwise press Cancel to return to the form and enter a colonoscopy date"))
+            {
+            new_colitis=true
+            }
+        else
+            {
+            return
+            }
         }
     }
 
-}
+if (crc && !(document.getElementById("crc_resected").value))
+    {
+        if (confirm("You have indicated that the patient has had a previous colorectal cancer but have not entered a resection date. If the patient has not had a cancer resection, press OK to continue - otherwise press Cancel to return to the form and enter a resection date"))
+            {
+            crc=false
+            }
+        else
+            {
+            return
+            }
+    }
+
+
+    if (polyps && !(document.getElementById("num_polyps").value && document.getElementById("size_polyp").value))
+    {
+        if (confirm("You have indicated that there were polyps on a recent colonoscopy but have not entered either  the number of polyps or the size of the largest polyps.  If there were no polyps, pres OK to continue or cancel to return to the form and enter this information."))
+            {
+            polyps=false
+            }
+        else
+            {
+            return
+            }
+    }
+
+
+
+
 let patient={};   
 let allData = document.querySelectorAll("input");
 allData.forEach(element=>
@@ -379,22 +415,35 @@ allData.forEach(element=>
         {
             patient[element.name]=element.value;
         }
+    })    
 
-        if (new_colitis)
-            {
-            console.log(`new colitis ${new_colitis}`)
-            patient["date_onset_colitis"] = Date.now()
-            }
-       
-    });
+    if(new_colitis)
+        {
+        console.log(`new colitis ${new_colitis}`)
+        patient["date_onset_colitis"] = Date.now()
+        }
+
+    if (!crc)
+        {
+        patient["prev_crc"]=false
+        }
+
+    if (!polyps) 
+        {
+        patient.num_polyps=0
+        }
+        
+    
+
 
     patient.date_now=Date.now()
     patient.age=age_to_use
 
     localStorage.setItem('patient', JSON.stringify(patient))
     window.open('html/recommendations.html')
-}
+    }
 
+   
 
 
 
@@ -425,7 +474,11 @@ let pjs=document.getElementById("pjs");
 pjs.addEventListener("click", show_pjs_questions);
 
 let final_submit=document.getElementById("form_finished");
-final_submit.addEventListener("click", readForm)
+final_submit.addEventListener("click", readForm);
+
+document.getElementById("clear_form"). addEventListener("click", ()=>{location.reload()});
+
+
 
 
 

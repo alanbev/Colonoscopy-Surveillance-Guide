@@ -22,6 +22,7 @@ else
     {
     patient.num_polyps=parseInt(patient.num_polyps)
     }
+
 patient.size_polyp=parseInt(patient.size_polyp)
 patient.polyp_int=100
 patient.crc_interval=100
@@ -30,18 +31,24 @@ patient.colitis_interval=100
 patient.acromegaly_interval=100
 patient.final_int=100
 
+
 patient=intScope.calculate_interval(patient);
 
+
+let years=0
+let months=0
+let age_exclusion_text= " since the patient will be over the recommended surveillance age by the date a colonoscopy would otherwise be recommended"
 var commentary_text=""
 var whether_prev_scope_ender=""
 if (patient.scopedate)
     {
-    whether_prev_scope_ender= " from the patient's last colonoscopy."   
+    whether_prev_scope_ender= " from the patient's last colonoscopy"   
     }
 else
     {
-    whether_prev_scope_ender="  from now."   
+    whether_prev_scope_ender="  from now"   
     }
+
 if (patient.polyps || patient.mult_polyp_question)
 {
 let start_polyp_text = `Based on the patient's history of`
@@ -66,9 +73,9 @@ if (patient.polyp_int === 0)
     {
     end_polyp_text= ` a completion colonoscopy now.`
     }
-else if (patient.polyp_int === 100)
+else if (patient.polyp_int === 100 || patient.polyp_age_exclusion)
     {
-    end_polyp_text = `no routine polyp surveillance.`
+    end_polyp_text = `no routine polyp surveillance${patient.polyp_age_exclusion? age_exclusion_text : ""}.`
     }
 else
     {
@@ -98,9 +105,9 @@ if (patient.prev_crc)
         {
         end_crc_text= ` a cancer surveillance colonoscopy now.`
         }
-    else if (patient.crc_interval === 100)
+    else if (patient.crc_interval === 100 || patient.crc_age_exclusion)
         {
-        end_crc_text = `no further routine colonoscopic cancer surveillance.`
+        end_crc_text = `no further routine colonoscopic cancer surveillance${patient.crc_age_exclusion? age_exclusion_text : ""}.`
         }
     else
         {
@@ -130,9 +137,9 @@ if (patient.prev_crc)
         {
         end_genetic_text= ` a surveillance colonoscopy now`
         }
-    else if (patient.genetic_interval === 100)
+    else if (patient.genetic_interval === 100 || patient.genetic_age_exclusion)
         {
-        end_genetic_text = `no further routine colonoscopic genetic surveillance`
+        end_genetic_text = `no routine genetic surveillance${patient.genetic_age_exclusion? age_exclusion_text : ""}.`
         }
     else
         {
@@ -229,6 +236,8 @@ if (patient.prev_crc)
         {
             let years=Math.floor(patient.final_int)
             let months= Math.floor((patient.final_int - years)*12)
+            console.log(patient.final_int - years)
+         
             if (months === 0)
                 {
                 end_final_text= `a surveillance colonoscopy ${years} years ${whether_prev_scope_ender}.`
@@ -245,7 +254,7 @@ if (patient.prev_crc)
     let recommendation_text=""
     let next_colonoscopy_time
     let next_colonoscopy_date
-    if (patient.scopedate==="")
+    if (patient.scopedate===null)
         {
         next_colonoscopy_time=patient.final_int
         }
@@ -274,19 +283,25 @@ let start_recommendation_text=`The recommendation is `
         {
         let years=Math.floor(next_colonoscopy_time)
         let months= Math.floor((next_colonoscopy_time - years)*12)
+        console.log((patient.final_int - years))
+        if((months=11) && (next_colonoscopy_time - years)*12-months > 0.6)//prevents reporting x years and 11 months inappropriately
+            {
+            years++;
+            months=0;
+            }
         if (months === 0)
             {
-            end_recommendation_text= `a surveillance colonoscopy ${years} years from now.`
+            end_recommendation_text= `a surveillance colonoscopy ${years} years from now`
             }
 
         else if (years === 0)
             {
-            end_recommendation_text= `a surveillance colonoscopy  ${months} months from now.`
+            end_recommendation_text= `a surveillance colonoscopy  ${months} months from now`
             }
 
         else
             {
-            end_recommendation_text= `a surveillance colonoscopy ${years} years and ${months} months from now.`
+            end_recommendation_text= `a surveillance colonoscopy ${years} years and ${months} months from now`
             }
 
         date_text=` which will be around ${next_colonoscopy_date}.`
@@ -296,18 +311,29 @@ let start_recommendation_text=`The recommendation is `
      
 
 
-site_check_text=""
-if (patient.site_check)
-
+    let site_check_text=""
+if (patient.site_check || patient.loc_resect)//site check from polyp resecetion or local resection of cancer
     {
     document.getElementById("site_check_outer_holder").classList.remove("hidden")
-    site_check_text=`Due to the nature of the polyps which were removed, a site check in 2-6 monthe time should be considered.  `
-    if (patient.second_site_check)
+
+    if(patient.site_check)
         {
-        site_check_text +=`Since there was a Large Non-Pedunculated Colorectal Polyp (LNPCP) without a confirmed R0 resection margin, an additional site check 12 months after the first site check is recommeded.  `
+        site_check_text+="Due to the nature of the polyps which were removed, a site check in 2-6 months time should be considered.  "
+        if (patient.second_site_check)
+            {
+            site_check_text +="Since there was a Large Non-Pedunculated Colorectal Polyp (LNPCP) without a confirmed R0 resection margin, an additional site check 12 months after the first site check is recommeded.  "
+            }
+        site_check_text += "The site check should be carried out but either flexible sigmoidoscopy or colonoscopy depending on the location of the most proximal polyp of concern.\n"
         }
-    site_check_text += `The site check should be carried out but either flexible sigmoidoscopy or colonoscopy depending on the location of the most proximal polyp of concern.`
-    }
+    if(patient.loc_resect)
+        {
+        interval_since_resection=(patient.date_now-patient.crc_resected)/msec_year
+        if (interval_since_resection<=3)
+            {
+            site_check_text += "Since the cancer was removed by local resection, site checks in accordance with local protocols or MDT advice should be considered e.g 3 monthly checks during the first year and 6 months checks for the next 2 years"
+            }
+        }
+}
 
 
 
