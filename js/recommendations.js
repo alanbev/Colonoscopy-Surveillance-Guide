@@ -69,7 +69,7 @@ if (patient.mult_polyp_question)
  start_polyp_text += ` the recommendation would be `
 
 let end_polyp_text=""
-if (patient.polyp_int === 0)
+if (patient.polyp_int <= 0)
     {
     end_polyp_text= ` a completion colonoscopy now.`
     }
@@ -101,7 +101,7 @@ if (patient.prev_crc)
     {
     let start_crc_text=`Based on the patient's history of colorectal cancer the recommendation would be `
     let end_crc_text=""
-    if (patient.crc_interval === 0)
+    if (patient.crc_interval <= 0)
         {
         end_crc_text= ` a cancer surveillance colonoscopy now.`
         }
@@ -133,7 +133,7 @@ if (patient.prev_crc)
     {
     let start_genetic_text=`Based on the patient's history of genetic risk and family history the recommendation would be `
     let end_genetic_text=""
-    if (patient.genetic_interval === 0)
+    if (patient.genetic_interval <= 0)
         {
         end_genetic_text= ` a surveillance colonoscopy now`
         }
@@ -164,7 +164,7 @@ if (patient.prev_crc)
     {
     let start_colitis_text=`Based on the patient's history of colitis, the recommendation would be `
     let end_colitis_text=""
-    if (patient.colitis_interval === 0)
+    if (patient.colitis_interval <= 0)
         {
         end_colitis_text= ` a surveillance colonoscopy now.`
         }
@@ -195,7 +195,7 @@ if (patient.prev_crc)
     {
     let start_acromegaly_text=`Based on the patient's diagnosis of acromegaly, the recommendation would be `
     let end_acromegaly_text=""
-    if (patient.acromegaly_interval === 0)
+    if (patient.acromegaly_interval <= 0)
         {
         end_acromegaly_text= ` a surveillance colonoscopy now.`
         }
@@ -224,7 +224,7 @@ if (patient.prev_crc)
     commentary_text +="\n\n"
     let start_final_text=`Overall therefore, the recommendation is `
     let end_final_text=""
-    if (patient.final_int === 0)
+    if (patient.final_int <= 0)
         {
         end_final_text= ` a surveillance colonoscopy now.`
         }
@@ -271,7 +271,7 @@ console.log(next_colonoscopy_date)
 
 let start_recommendation_text=`The recommendation is `
     let end_recommendation_text=""
-    if (patient.final_int === 0)
+    if (next_colonoscopy_time <= 0)
         {
         end_recommendation_text= ` a surveillance colonoscopy now.`
         }
@@ -284,7 +284,7 @@ let start_recommendation_text=`The recommendation is `
         let years=Math.floor(next_colonoscopy_time)
         let months= Math.floor((next_colonoscopy_time - years)*12)
         console.log((patient.final_int - years))
-        if((months=11) && (next_colonoscopy_time - years)*12-months > 0.6)//prevents reporting x years and 11 months inappropriately
+        if((months===11) && (next_colonoscopy_time - years)*12-months > 0.6)//prevents reporting x years and 11 months inappropriately
             {
             years++;
             months=0;
