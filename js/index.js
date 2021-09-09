@@ -396,17 +396,28 @@ allData.forEach(element=>
         {
             patient[element.name]=element.checked;
         }
+
         else if (element.type==="radio")
         {
             if(element.checked)
             {
                 if (element.value==="true")
-                    {element.value=true}
+                {
+                    patient[element.name]=true;
+                }
+
                 else if (element.value==="false")
-                    {element.value=false}
-                patient[element.name]=element.value;
-            }
+                {
+                    patient[element.name]=false;
+                }
+
+                else
+                {
+                    patient[element.name]=element.value;
+                } 
+            }   
         }
+
         else if (element.type=="date")
         {
             patient[element.name]=element.valueAsNumber
