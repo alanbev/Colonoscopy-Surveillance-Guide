@@ -31,7 +31,7 @@ const intScope=
         if (patient.num_polyps || patient.mult_polyp_question)  //polyps reported in first level questions.
             {
             patient=this.polyp(patient)
-            if (patient.polyp_int + patient.age > 75)
+            if (patient.polyp_int!=100 && patient.polyp_int + patient.age > 75)
                 {
                 patient.polyp_int = 100
                 patient.polyp_age_exclusion=true
@@ -41,7 +41,7 @@ const intScope=
         if (patient.prev_crc)//hist of crc reported in first level questions
             {
             patient=this.crc(patient)
-            if (patient.crc_interval + patient.age > 75)
+            if (patient.crc_interval!=100 && patient.crc_interval + patient.age > 75)
                 {
                 patient.crc_interval = 100
                 patient.crc_age_exclusion=true
@@ -52,7 +52,7 @@ const intScope=
             {
             patient=this.genetic(patient)
             {
-            if (patient.genetic_interval + patient.age > 75 && !(patient.mutyh || patient.fap || patient.jps))
+            if (patient.genetic_interval!=100 && patient.genetic_interval + patient.age > 75 && !(patient.mutyh || patient.fap || patient.jps))
                 {
                 patient.genetic_interval = 100
                 patient.genetic_age_exclusion=true
