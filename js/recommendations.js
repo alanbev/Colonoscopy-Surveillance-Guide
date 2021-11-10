@@ -55,7 +55,7 @@ let start_polyp_text = `Based on the patient's history of`
 
 if (patient.num_polyps >0)
 {
- start_polyp_text+=` ${patient.num_polyps} polyps with the largest being ${patient.size_polyp} mm`
+ start_polyp_text+=` ${patient.num_polyps} polyp(s) with the largest being ${patient.size_polyp} mm`
     if (patient.mult_polyp_question)
     {
     start_polyp_text+=` and`
