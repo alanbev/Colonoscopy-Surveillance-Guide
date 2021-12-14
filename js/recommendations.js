@@ -2,6 +2,7 @@ const msec_year=31536000000;
 const ms_three_years=94608000000;
 //const a_hundred_years=3153600000000
 
+
 let patient=JSON.parse(localStorage.getItem('patient'));
 patient.age=parseFloat(patient.age)
 
