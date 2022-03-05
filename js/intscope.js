@@ -115,7 +115,7 @@ const intScope=
         
 
         if (patient.mult_polyp_question)
-            {console.log("multiple polyps reached")
+            {
 
             if (patient.scopedate===null)
                 {
@@ -370,7 +370,7 @@ const intScope=
                 if (patient.age>=55)
                     {
                         //never had a scope or not had a scope since 55 or inthe last 3 years
-                    if (patient.scopedate==="" || (patient.date_now-patient.scopedate)/this.msec_year>3  && patient.age - ((patient.date_now-patient.scopedate)/this.msec_year)>55)
+                    if (patient.scopedate===null || (patient.date_now-patient.scopedate)/this.msec_year>3  && patient.age - ((patient.date_now-patient.scopedate)/this.msec_year)>55)
                         {
                         patient.genetic_interval=0
                         return patient
@@ -414,6 +414,26 @@ const intScope=
                 patient.genetic_interval=25-patient.age
                 }
             }
+
+        if (patient.fdr_sps)//first degree relative with sps
+            {
+                let raw_int=40-patient.age
+                let interval_from_age = Math.max(0, raw_int)
+                let fdr_sps_interval=100
+
+            if (patient.scopedate===null) 
+                {
+                fdr_sps_interval=interval_from_age
+                }
+            else 
+                {
+                //let five_years_from_last_scope=5 - (patient.date_now-patient.scopedate)/this.msec_year 
+                fdr_sps_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 5)
+                } 
+                
+            patient.genetic_interval=Math.min(fdr_sps_interval, patient.genetic_interval)
+            } 
+        
 
         if (patient.genetic_interval===null)
                 {
