@@ -18,7 +18,7 @@ const intScope=
         {
         first_crc_int: 1,  //years from resection to first surveillance
         second_crc_int: 3, //  years from resection to second surveillance
-        bcs_age: 60 // vurrent age to start bowel cancer screening
+        bcs_age: 60 // current age to start bowel cancer screening
         },
 
        
@@ -72,7 +72,8 @@ const intScope=
 
         
             
-        console.log(patient.final_int);
+      
+    
         return(patient)    
         },
         
@@ -99,7 +100,7 @@ const intScope=
             if ( (this.advanced_polyp && patient.num_polyps>1) || (patient.num_polyps>4) )
                 {
                 patient.polyp_int=this.polyp_guide.int;
-                console.log(patient.polyp_int)
+            
                 }
             //surveillance for young patients not meeting above criteria (age and interval set in polyp_guide)   
             else if (patient.age<=this.polyp_guide.young)
@@ -236,12 +237,16 @@ const intScope=
                 }
             else
                 {
-                    let provisional_interval=12-patient.age
-                    if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
-                        {
-                        provisional_interval=1
-                        }
-                    patient.genetic_interval=Math.min(patient.genetic_interval, provisional_interval)
+                let interval_from_age=12-patient.age 
+                if (patient.scopedate===null)
+                    {
+                    fap_interval=interval_from_age
+                    }
+                else
+                    {
+                    fap_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 1)
+                    }
+                patient.genetic_interval=Math.min(fap_interval, patient.genetic_interval)
                 }    
             }  
                 
@@ -252,14 +257,18 @@ const intScope=
             patient.genetic_interval=Math.min(patient.genetic_interval,1)
             }
         else
-        {
-            let provisional_interval=18-patient.age
-            if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
+            {
+            let interval_from_age=18-patient.age 
+            if (patient.scopedate===null)
                 {
-                provisional_interval=1
+                mutyh_interval=interval_from_age
                 }
-            patient.genetic_interval=Math.min(patient.genetic_interval, provisional_interval)
-        }    
+            else
+                {
+                mutyh_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 2)
+                }
+            patient.genetic_interval=Math.min(mutyh_interval, patient.genetic_interval)
+            }    
         } 
 
         if (patient.jps)
@@ -279,16 +288,17 @@ const intScope=
         
         else
             {
-                let provisional_interval=15-patient.age
-                if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
-                    {
-                    provisional_interval=1
-                    }
-                patient.genetic_interval=Math.min(patient.genetic_interval, provisional_interval)
+            let interval_from_age=15-patient.age 
+            if (patient.scopedate===null)
+                {
+                lynch_interval=interval_from_age
+                }
+            else
+                {
+                jps_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 2)
+                }
+             patient.genetic_interval=Math.min(jps_interval, patient.genetic_interval)
             }
-      
-        
-         return patient
            
         } 
 
@@ -297,7 +307,7 @@ const intScope=
         if (patient.age<8)
             {
             let provisional_interval=8-patient.age
-            if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
+            if(((patient.date_now-patient.scopedate)<this.msec_year) && provisional_interval < 1)//if colonoscopy due in <1 year alters to one year if colonoscopy withnin last year
                 {
                 provisional_interval=1
                 }
@@ -320,7 +330,6 @@ const intScope=
                 if((patient.date_now-patient.scopedate<this.msec_year) && provisional_interval < 3)//if colonoscopy due in <3 year alters to three years if colonoscopy withnin last year
                     {
                     provisional_interval=3
-                    console.log(adjusted)
                     }
                 patient.genetic_interval=Math.min(patient.genetic_interval, provisional_interval)   
                 }
@@ -351,41 +360,59 @@ const intScope=
                          patient.lynch=true
                         }
                     }
-                 if (patient.age>=40)
+                 else
                     {
-                    if (patient.scopedate===null)
+                    if (patient.scopedate===null && patient.age>=40)
                         {
                         patient.genetic_interval=0
                         return patient   
                         }
                     else
                         {
-                        patient.genetic_interval=Math.min(5, patient.genetic_interval)
-                        }                   
-                    }  
+                        let fh3_interval
+                        let interval_from_age=Math.max(40-patient.age, 0) 
+                        if (patient.scopedate===null)
+                            {
+                            fh3_interval=interval_from_age
+                            }
+                        else
+                            {
+                            fh3_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 5)
+                            }
+                        patient.genetic_interval=Math.min(fh3_interval, patient.genetic_interval)
+                        }
+                    }
+                      
                 }
             else if ((patient.numb_fdr==="2") || (patient.numb_fdr==="1" && patient.fdr_under_50))// two first degree relative or one first degree relative under 55
-                {
-                   console.log(patient.age)
+                { 
                 if (patient.age>=55)
                     {
-                        //never had a scope or not had a scope since 55 or inthe last 3 years
+                        //never had a scope or not had a scope since 55 or in the last 3 years
                     if (patient.scopedate===null || (patient.date_now-patient.scopedate)/this.msec_year>3  && patient.age - ((patient.date_now-patient.scopedate)/this.msec_year)>55)
                         {
                         patient.genetic_interval=0
                         return patient
                         }
-                
-                    
                     else 
                         {
                         patient.genetic_interval=Math.min(patient.genetic_interval,100)
                         }
                     }   
-                else // patient under 55
+                else
                     {
-                    patient.genetic_interval=Math.min(patient.genetic_interval, (55-patient.age))
-                    } 
+                    let fh2_interval
+                    let interval_from_age=55-patient.age 
+                    if (patient.scopedate===null)
+                        {
+                        fh2_interval=interval_from_age
+                        }
+                    else
+                        {
+                        fh2_interval=interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year
+                        }
+                    patient.genetic_interval=Math.min(fh2_interval, patient.genetic_interval) 
+                    }
                 }
             else //low risk group
                 {
@@ -395,51 +422,67 @@ const intScope=
             }
 
         if (patient.lynch)
-            {
-            if (patient.scopedate===null && (patient.age>=35 || (patient.age>=25 && !patient.lynch_late_start)))
+            {console.log("lynch has run")
+            let start_age=25
+            if (patient.lynch_late_start)
+                {
+                start_age=35
+                }
+
+            if (patient.scopedate===null && patient.age>=start_age)
                 {
                 patient.genetic_interval=0
                 return patient
                 }
-            else if (patient.age>=35 || (patient.age>=25 && !patient.lynch_late_start))
+            else if (patient.age>start_age)
                 {
                 patient.genetic_interval=Math.min(2,patient.genetic_interval)
                 }
-            else if (patient.lynch_late_start)
+           else
                 {
-                patient.genetic_interval=35-patient.age 
-                }
-            else
-                {
-                patient.genetic_interval=25-patient.age
-                }
+                let lynch_interval
+                let interval_from_age=start_age-patient.age 
+                if (patient.scopedate===null)
+                    {
+                    lynch_interval=interval_from_age
+                    }
+                else
+                    {
+                    lynch_interval=Math.max((interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year), 2)
+                    }
+
+                patient.genetic_interval=Math.min(lynch_interval, patient.genetic_interval)
+                }   
             }
 
-        if (patient.fdr_sps)//first degree relative with sps
-            {
-                let raw_int=40-patient.age
-                let interval_from_age = Math.max(0, raw_int)
-                let fdr_sps_interval=100
+               
+        
+        
+    if (patient.fdr_sps)//first degree relative with sps
+        {
+            let raw_int=40-patient.age
+            let interval_from_age = Math.max(0, raw_int)
+            let fdr_sps_interval=100
 
-            if (patient.scopedate===null) 
-                {
-                fdr_sps_interval=interval_from_age
-                }
-            else 
-                {
-                //let five_years_from_last_scope=5 - (patient.date_now-patient.scopedate)/this.msec_year 
-                fdr_sps_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 5)
-                } 
-                
+        if (patient.scopedate===null) 
+            {
+            fdr_sps_interval=interval_from_age
+            }
+            else
+            {
+            fdr_sps_interval=Math.max(interval_from_age + (patient.date_now-patient.scopedate)/this.msec_year, 5)
+            }
+
             patient.genetic_interval=Math.min(fdr_sps_interval, patient.genetic_interval)
-            } 
+        }   
+        
         
 
         if (patient.genetic_interval===null)
                 {
                 patient.genetic_interval=100
                 }
-        
+        console.log("it gets to here")
         return patient
     },
 
@@ -486,9 +529,9 @@ const intScope=
             
     
     if (patient.colitis_fh_crc)//family history of CRC
-        {console.log("familyhist")
+        {
         if ((parseInt(patient.numb_fdr)>0))
-            {console.log(patient.numb_fdr)
+            {
             if (patient.fdr_under_50)
                 {
                 patient.colitis_interval=1
@@ -534,7 +577,7 @@ const intScope=
         else
             {
             prov_acromegaly_inteval=40-patient.age
-            if (patient.scopedate=null)
+            if (patient.scopedate===null)
                 {
                 patient.acromegaly_interval=prov_acromegaly_inteval
                 }
@@ -544,6 +587,6 @@ const intScope=
                 }
             }
         return patient
-        },
+        }
 
 }

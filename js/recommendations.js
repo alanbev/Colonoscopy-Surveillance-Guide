@@ -237,7 +237,6 @@ if (patient.prev_crc)
         {
             let years=Math.floor(patient.final_int)
             let months= Math.floor((patient.final_int - years)*12)
-            console.log(patient.final_int - years)
          
             if (months === 0)
                 {
@@ -265,9 +264,7 @@ if (patient.prev_crc)
         }
 
     next_colonoscopy_date=  new Date(patient.date_now + next_colonoscopy_time * msec_year).toDateString()
-console.log(patient.date_now)
-console.log(next_colonoscopy_time)
-console.log(next_colonoscopy_date)
+
 
 
 let start_recommendation_text=`The recommendation is `
@@ -284,7 +281,6 @@ let start_recommendation_text=`The recommendation is `
         {
         let years=Math.floor(next_colonoscopy_time)
         let months= Math.floor((next_colonoscopy_time - years)*12)
-        console.log((patient.final_int - years))
         if((months===11) && (next_colonoscopy_time - years)*12-months > 0.6)//prevents reporting x years and 11 months inappropriately
             {
             years++;
@@ -338,8 +334,6 @@ if (patient.site_check || patient.loc_resect)//site check from polyp resecetion 
 
 
 
-
-console.log(commentary_text)
 
 document.getElementById("commentary_holder").innerText=commentary_text
 document.getElementById("recommendation_holder").innerText=recommendation_text
